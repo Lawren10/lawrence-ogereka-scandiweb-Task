@@ -1,15 +1,23 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { Component } from "react";
+import Navcomp from "./components/Nav/Navcomp";
+import Category from "./components/Category";
+import { Routes, Route } from "react-router-dom";
+import ShopCart from "./components/ShopCart";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Scandi web Task</h1>
-      </header>
-    </div>
-  );
+export class App extends Component {
+  render() {
+    return (
+      <>
+        <div>
+          <Navcomp />
+          <Routes>
+            <Route path="/" element={<Category />} />
+            <Route path="/cart" element={<ShopCart />} />
+          </Routes>
+        </div>
+      </>
+    );
+  }
 }
 
 export default App;
