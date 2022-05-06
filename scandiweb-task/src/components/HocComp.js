@@ -1,14 +1,13 @@
-// import React from "react";
-// import { useQuery } from "@apollo/client";
-// import { Category } from "../Apolloquery/queries";
+import React from "react";
+import { useParams } from "react-router-dom";
 
-// const HocCategory = (Component) => {
-//   function HocComp(props) {
-//     const categorydata = useQuery(Category, { variables: { tittle: "all" } });
-//     return <Component {...props} categorydata={categorydata}></Component>;
-//   }
+const GetParmas = (Component) => {
+  function HocComp(props) {
+    const { id } = useParams();
+    return <Component {...props} id={id}></Component>;
+  }
 
-//   return HocComp;
-// };
+  return HocComp;
+};
 
-// export default HocCategory;
+export default GetParmas;

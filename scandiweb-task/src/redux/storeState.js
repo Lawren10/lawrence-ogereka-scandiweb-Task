@@ -3,9 +3,16 @@ const fullShop = {
   categoryName: "",
   currencies: {
     navCurrencies: [],
-    selectedCurrency: "",
+    selectedCurrency: "$",
   },
   prices: [],
+  displayPrice: [],
+  singleProductId: "",
+  selectedproduct: {},
+  cart: {},
+  cartTotal: 0,
+  itemsInCart: 0,
+  totalCartProductQuantity: 0,
 };
 
 export default fullShop;

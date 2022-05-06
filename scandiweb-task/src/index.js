@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { GlobalStyle } from "./styled-compomets/Global-style-theme";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useParams } from "react-router-dom";
 import store from "./redux/store";
 import App from "./App";
 
@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.Fragment>
     <GlobalStyle />
-    <Provider store={store}>
+    <Provider store={store} id={useParams}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { keyframes, css } from "styled-components";
 
 export const NavWrapper = styled.nav`
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 4rem;
   display: flex;
   align-items: center;
   background-color: white;
@@ -15,6 +16,7 @@ export const NavButton = styled.button`
   border: none;
   border-bottom: ${({ active }) => (active ? "2px solid #5ece7b;" : "none")};
   font-family: inherit;
+  color: ${({ active }) => (active ? "#5ece7b;" : "none")};
   background: transparent;
   cursor: pointer;
 `;
@@ -27,21 +29,43 @@ export const NavCurrencyBtn = styled.div`
   position: relative;
 `;
 
+const Animate = keyframes`
+from {
+    transform: translateY(-14.3rem);
+  }
+
+  to {
+    transform:translateY(0);
+  }
+`;
+
+const ReAnimate = keyframes`
+from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform:translateY(-22.3rem);
+  }
+`;
+
 export const NavCurrencyList = styled.ul`
   position: absolute;
   right: 0;
   top: 100%;
-  /* width: 1.5rem;
-  height: 2rem; */
   background-color: white;
   box-shadow: 0 0.1rem 1rem 0 #f0f0f0;
   list-style-type: none;
-  display: none;
-  transition: all 0.5s ease-in;
-  ${NavCurrencyBtn}:hover & {
-    display: block;
-    transition: all 0.5s ease-in;
-  }
+  z-index: -1;
+  transform: translateY(-22.3rem);
+  ${({ show }) =>
+    show
+      ? css`
+          animation: ${Animate} 0.5s linear forwards;
+        `
+      : css`
+          animation: ${ReAnimate} 0.5s linear forwards;
+        `};
 `;
 
 export const NavCurrencyItem = styled.li`
@@ -70,12 +94,29 @@ export const CartList = styled.ul`
   position: absolute;
   right: 0;
   top: 100%;
-  padding: 1rem;
-  width: 1.5rem;
-  height: 2rem;
+  padding: 0.2rem;
+  width: 20rem;
+  height: 32rem;
   background-color: white;
   border: 1px solid #f0f0f0;
   list-style-type: none;
+  z-index: 5;
+  display: none;
+  transition: all 0.5s ease-in;
+  ${CartBtn}:hover & {
+    display: block;
+    transition: all 0.5s ease-in;
+  }
+`;
+
+export const CartOverLay = styled.div`
+  position: absolute;
+  top: 100%;
+  right: -100%;
+  width: 100vw;
+  height: 89.5vh;
+  background-color: rgba(57, 55, 72, 0.22);
+  z-index: 3;
   display: none;
   transition: all 0.5s ease-in;
   ${CartBtn}:hover & {

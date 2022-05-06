@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const PicContainer = styled.div`
+  position: relative;
   height: 22rem;
   background-color: white;
 `;
@@ -17,11 +18,13 @@ export const ItemName = styled.h5`
   font-family: inherit;
   font-size: 1.125rem;
   line-height: 2rem;
+  opacity: ${({ inStock }) => (inStock ? 1 : 0.5)};
 `;
 export const ItemPrice = styled.h5`
   font-weight: 500;
   font-family: inherit;
   font-size: 1.125rem;
+  opacity: ${({ inStock }) => (inStock ? 1 : 0.5)};
 `;
 
 export const CategoriesName = styled.h1`
@@ -73,4 +76,29 @@ export const ItemWrapper = styled.li`
       transition: all 0.5s ease;
     }
   }
+`;
+
+export const OutOfStockOverLay = styled.div`
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: lightgray;
+  opacity: 0.3;
+`;
+
+export const OutOfStockText = styled.div`
+  font-size: 2rem;
+`;
+
+export const AddedToCartMessage = styled.div`
+  position: absolute;
+  inset: 40% auto auto 5rem;
+  padding: 0.5rem 2rem;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  color: ${({ added }) => (added ? "#5ece7b" : "red")};
+  backdrop-filter: blur(0.5rem);
+  display: ${({ show }) => (show ? "block" : "none")};
 `;

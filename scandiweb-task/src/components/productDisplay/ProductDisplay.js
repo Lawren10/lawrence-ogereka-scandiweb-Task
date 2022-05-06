@@ -1,0 +1,72 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import GetParmas from "../HocComp";
+import { getSingleProduct } from "../../redux/asyncQueries";
+import ProductPicture from "./Productpicture";
+import ProductDescription from "./ProductDescription";
+import { Action } from "../../redux/storereducer";
+import { ProductdisplayCont } from "../../styled-compomets/productDisplayStyle";
+import Loading from "../Loading";
+let { setsingleProductId } = Action;
+
+class ProductDisplay extends Component {
+  componentDidMount() {
+    let { id, getSingleProduct } = this.props;
+    getSingleProduct(id);
+  }
+
+  render() {
+    let { displayPrice, id, selectedproduct } = this.props;
+
+    if (selectedproduct.attributes === undefined) {
+      return <Loading />;
+    }
+
+    let singlePrice = displayPrice[id];
+
+    let { amount, currency } = singlePrice;
+
+    let { attributes, brand, description, name, gallery, inStock } =
+      selectedproduct;
+
+    return (
+      <ProductdisplayCont>
+        <ProductPicture gallery={gallery} />
+        <ProductDescription
+          attributes={attributes}
+          brand={brand}
+          description={description}
+          name={name}
+          amount={amount}
+          currency={currency}
+          inStock={inStock}
+          id={id}
+        />
+      </ProductdisplayCont>
+    );
+  }
+}
+
+ProductDisplay = GetParmas(ProductDisplay);
+
+const mapStateToProps = (state) => {
+  let { displayPrice, singleProductId, selectedproduct } = state.shop;
+  return {
+    displayPrice: displayPrice,
+    singleProductId: singleProductId,
+    selectedproduct: selectedproduct,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getSingleProduct: (pid) => {
+      dispatch(getSingleProduct(pid));
+    },
+    setsingleProductId: (pid) => {
+      dispatch(setsingleProductId(pid));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDisplay);

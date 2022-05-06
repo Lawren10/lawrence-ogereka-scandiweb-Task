@@ -40,3 +40,53 @@ export const QueryCurrencies = gql`
     }
   }
 `;
+
+export const QuerySigleProduct = gql`
+  query getSingleProduct($id: String!) {
+    product(id: $id) {
+      id
+      name
+      gallery
+      inStock
+      description
+      category
+      attributes {
+        id
+        name
+        type
+        items {
+          displayValue
+        }
+      }
+      prices {
+        currency {
+          label
+          symbol
+        }
+        amount
+      }
+      brand
+    }
+  }
+`;
+
+export const CartProduct = gql`
+  query getSingleProduct($id: String!) {
+    product(id: $id) {
+      id
+      name
+      gallery
+
+      attributes {
+        id
+        name
+        type
+        items {
+          displayValue
+        }
+      }
+
+      brand
+    }
+  }
+`;
