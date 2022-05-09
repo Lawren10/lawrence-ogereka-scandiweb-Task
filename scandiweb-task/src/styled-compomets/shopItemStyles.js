@@ -56,7 +56,7 @@ export const AddToChartBtn = styled.div`
   color: white;
   opacity: 0;
   transition: opacity 0.5s ease;
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 920px) {
     opacity: 1;
   }
 `;
@@ -75,6 +75,14 @@ export const ItemWrapper = styled.li`
       opacity: 1;
       transition: all 0.5s ease;
     }
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 47.3%;
+  }
+
+  @media screen and (max-width: 420px) {
+    width: 100%;
   }
 `;
 

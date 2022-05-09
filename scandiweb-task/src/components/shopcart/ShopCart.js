@@ -20,8 +20,16 @@ export class ShopCart extends Component {
   loop = (cartitem) => {
     let arry = [];
     for (let item in cartitem) {
-      let { attributes, name, brand, id, price, quantity, gallery } =
-        cartitem[item];
+      let {
+        attributes,
+        name,
+        brand,
+        id,
+        price,
+        quantity,
+        gallery,
+        selectedAttribute,
+      } = cartitem[item];
       let { amount } = price;
       // console.log(cartitem[item]);
       arry.push(
@@ -32,6 +40,7 @@ export class ShopCart extends Component {
             brand={brand}
             id={id}
             price={price}
+            selectedAttribute={selectedAttribute}
           />
           <CartItemQuantity
             quantity={quantity}
@@ -47,7 +56,7 @@ export class ShopCart extends Component {
   };
 
   render() {
-    let { cart, cartTotal, symbol, quantity } = this.props;
+    let { cart, cartTotal, symbol, quantity, tax } = this.props;
     if (Object.keys(cart).length === 0) {
       return (
         <div
@@ -59,7 +68,7 @@ export class ShopCart extends Component {
             placeContent: "center",
           }}
         >
-          <h1>Sorry Your Cart Is Empty</h1>;
+          <h1>Sorry Your Cart Is Empty</h1>
         </div>
       );
     }
@@ -72,7 +81,7 @@ export class ShopCart extends Component {
             style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
           >
             <CartPriceLabel>Tax 21%:</CartPriceLabel>
-            <Cartvalue>{`${symbol}`}</Cartvalue>
+            <Cartvalue>{`${symbol}${tax}`}</Cartvalue>
           </div>
           <div
             style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
@@ -94,13 +103,15 @@ export class ShopCart extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let { cart, cartTotal, currencies, totalCartProductQuantity } = state.shop;
+  let { cart, cartTotal, currencies, totalCartProductQuantity, tax } =
+    state.shop;
   let { selectedCurrency } = currencies;
   return {
     cart,
     cartTotal,
     symbol: selectedCurrency,
     quantity: totalCartProductQuantity,
+    tax,
   };
 };
 

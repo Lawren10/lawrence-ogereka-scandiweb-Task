@@ -8,6 +8,25 @@ export const NavWrapper = styled.nav`
   align-items: center;
   background-color: white;
   box-shadow: 0 0.5rem 1rem 0 #f0f0f0;
+  @media screen and (max-width: 420px) {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+`;
+
+export const LogoWrap = styled.div`
+  margin-left: auto;
+  @media screen and (max-width: 420px) {
+    align-self: center;
+    margin-left: 0;
+  }
+`;
+export const CategoriesNavWrap = styled.section`
+  @media screen and (max-width: 420px) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const NavButton = styled.button`
@@ -66,6 +85,10 @@ export const NavCurrencyList = styled.ul`
       : css`
           animation: ${ReAnimate} 0.5s linear forwards;
         `};
+  @media screen and (max-width: 420px) {
+    left: 0;
+    width: 8rem;
+  }
 `;
 
 export const NavCurrencyItem = styled.li`
@@ -107,6 +130,12 @@ export const CartList = styled.ul`
     display: block;
     transition: all 0.5s ease-in;
   }
+  @media screen and (max-width: 420px) {
+    ${CartBtn}:hover & {
+      display: none;
+      transition: all 0.5s ease-in;
+    }
+  }
 `;
 
 export const CartOverLay = styled.div`
@@ -123,11 +152,21 @@ export const CartOverLay = styled.div`
     display: block;
     transition: all 0.5s ease-in;
   }
+  @media screen and (max-width: 420px) {
+    ${CartBtn}:hover & {
+      display: none;
+      transition: all 0.5s ease-in;
+    }
+  }
 `;
 
 export const CurrCartWrap = styled.section`
   display: flex;
   margin-left: auto;
+  @media screen and (max-width: 420px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 export const CartCount = styled.div`

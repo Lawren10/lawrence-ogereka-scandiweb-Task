@@ -73,6 +73,7 @@ export const addToCart = createAsyncThunk(
     let { displayPrice } = shopstate.shop;
     try {
       let res = await Client.request(CartProduct, variables);
+
       res.product.price = displayPrice[pid];
       res.product.quantity = 1;
       return res.product;

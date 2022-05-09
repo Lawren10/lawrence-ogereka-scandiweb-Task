@@ -21,10 +21,18 @@ export class MiniCart extends Component {
   loop = (cartitem) => {
     let arry = [];
     for (let item in cartitem) {
-      let { attributes, name, brand, id, price, quantity, gallery } =
-        cartitem[item];
+      let {
+        attributes,
+        name,
+        brand,
+        id,
+        price,
+        quantity,
+        gallery,
+        selectedAttribute,
+      } = cartitem[item];
       let { amount } = price;
-      // console.log(cartitem[item]);
+
       arry.push(
         <CartItem key={item} mini={"true"}>
           <MiniCartItemDetail
@@ -33,6 +41,7 @@ export class MiniCart extends Component {
             brand={brand}
             id={id}
             price={price}
+            selectedAttribute={selectedAttribute}
           />
           <MiniCartItemQuantity
             quantity={quantity}

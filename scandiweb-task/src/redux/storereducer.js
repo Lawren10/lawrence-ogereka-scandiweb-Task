@@ -33,15 +33,26 @@ const Shop = createSlice({
       state.selectedproduct = action.payload.product;
     },
     [addToCart.fulfilled]: (state, action) => {
-      let { id, price } = action.payload;
+      let product = action.payload;
+      let { id, price, attributes } = product;
       let { amount } = price;
+      let selected = {};
+      for (let att of attributes) {
+        let { items, name } = att;
+        let singleItem = items[0];
+        att.selectedAttribute = singleItem.displayValue;
+        selected[name] = singleItem.displayValue;
+        // items.forEach((ele, index) => {
+        //   index === 0 ? (ele.selected = "true") : (ele.selected = "false");
+        // });
+      }
+      product.selectedAttribute = selected;
 
-      state.cart[id] = action.payload;
+      state.cart[id] = product;
       state.itemsInCart += 1;
       state.totalCartProductQuantity = state.totalCartProductQuantity + 1;
       state.cartTotal += Math.round(amount);
-
-      // state.cartTotal.toFixed(2);
+      state.tax = Math.round(state.cartTotal * 0.21);
     },
   },
 });

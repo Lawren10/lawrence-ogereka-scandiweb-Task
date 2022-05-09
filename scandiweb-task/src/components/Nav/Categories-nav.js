@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 // import Link from "react-router-dom";
-import { NavButton } from "../../styled-compomets/Navcomp-styles";
+import {
+  NavButton,
+  CategoriesNavWrap,
+} from "../../styled-compomets/Navcomp-styles";
 import { connect } from "react-redux";
 import { getCategory } from "../../redux/asyncQueries";
 import { ShopLink } from "../../styled-compomets/Global-style-theme";
@@ -37,7 +40,7 @@ export class CategoriesNav extends Component {
   render() {
     let { all, clothes, tech } = this.state;
     return (
-      <section>
+      <CategoriesNavWrap>
         <ShopLink to="/">
           <NavButton
             id="all"
@@ -72,7 +75,7 @@ export class CategoriesNav extends Component {
             Tech
           </NavButton>
         </ShopLink>
-      </section>
+      </CategoriesNavWrap>
     );
   }
 }

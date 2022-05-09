@@ -9,14 +9,15 @@ import {
   CartContWrap,
   LabelWrap,
 } from "../../styled-compomets/ShopCartStyles";
-import "../../index.css";
+import { connect } from "react-redux";
+import { Action } from "../../redux/storereducer";
+let { setSelectedItem } = Action;
 
 export class MiniCartItemDetail extends Component {
   render() {
-    // console.log(this.props);
-    let { att, name, brand, id, price } = this.props;
+    let { att, name, brand, id, price, selectedAttribute, setSelectedItem } =
+      this.props;
 
-    // console.log(this.props);
     let { amount, currency } = price;
     return (
       <div style={{ marginRight: "auto" }}>
@@ -31,46 +32,51 @@ export class MiniCartItemDetail extends Component {
               <CartItemLabel mini={"true"}>{name}:</CartItemLabel>
               <CartContWrap mini={"true"}>
                 {items.map((item, num) => {
+                  let { displayValue } = item;
                   return type !== "swatch" ? (
                     <LabelWrap key={`${num}${type}`}>
-                      <input
-                        type="radio"
-                        id={`${name}${item.displayValue}-mini`}
-                        name={`${id}${name}`}
-                      />
                       <CartSizeCont
-                        htmlFor={`${name}${item.displayValue}-mini`}
-                        className="desc"
                         mini={"true"}
+                        selected={
+                          selectedAttribute[name] === displayValue
+                            ? true
+                            : false
+                        }
+                        onClick={() => {
+                          setSelectedItem({ id, name, num: displayValue });
+                        }}
                       >
-                        {item.displayValue}
+                        {displayValue}
                       </CartSizeCont>
                     </LabelWrap>
                   ) : (
-                    <div key={`${num}${type}`}>
-                      <input
-                        type="radio"
-                        id={`${name}${item.displayValue}-mini`}
-                        name={`${id}${name}`}
-                        key={item.displayValue}
-                      />
-                      <CartSwatch
-                        color={item.displayValue}
-                        htmlFor={`${name}${item.displayValue}-mini`}
-                        className="swatch"
-                        key={`${name}${item.displayValue}`}
-                      />
-                    </div>
+                    <CartSwatch
+                      color={displayValue}
+                      key={`${name}${displayValue}`}
+                      selected={
+                        selectedAttribute[name] === displayValue ? true : false
+                      }
+                      onClick={() => {
+                        setSelectedItem({ id, name, num: displayValue });
+                      }}
+                    />
                   );
                 })}
               </CartContWrap>
             </div>
           );
         })}
-        {/* {console.log(this.state)} */}
       </div>
     );
   }
 }
 
-export default MiniCartItemDetail;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSelectedItem: ({ id, name, num }) => {
+      dispatch(setSelectedItem({ id, name, num }));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MiniCartItemDetail);

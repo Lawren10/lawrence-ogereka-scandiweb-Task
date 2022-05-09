@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   QuantityChange,
   QuantityCount,
+  QuantityWraper,
 } from "../../styled-compomets/ShopCartStyles";
 import { connect } from "react-redux";
 import { Action } from "../../redux/storereducer";
@@ -19,7 +20,7 @@ export class MiniCartItemQuantity extends Component {
 
     if (func === "decrease") {
       if (num <= 1) {
-        this.props.deleteFromCart(id);
+        this.props.deleteFromCart({ id, num, amount });
         return;
       }
 
@@ -31,9 +32,9 @@ export class MiniCartItemQuantity extends Component {
 
   render() {
     let { quantity, id, amount } = this.props;
-    // console.log(this.props);
+
     return (
-      <>
+      <QuantityWraper mini={"true"}>
         <QuantityChange
           onClick={() => {
             this.changeItemQuantity("increase", quantity, id, amount);
@@ -53,7 +54,7 @@ export class MiniCartItemQuantity extends Component {
         >
           -
         </QuantityChange>
-      </>
+      </QuantityWraper>
     );
   }
 }
@@ -76,8 +77,8 @@ const mapDispatchToProps = (dispatch) => {
     decreaseTotalQty: () => {
       dispatch(decreaseTotalQty());
     },
-    deleteFromCart: (id) => {
-      dispatch(deleteFromCart(id));
+    deleteFromCart: ({ id, num, amount }) => {
+      dispatch(deleteFromCart({ id, num, amount }));
     },
   };
 };

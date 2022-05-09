@@ -16,8 +16,15 @@ const shopActions = {
         state.cart[item].price = newPrice;
         state.cartTotal += Math.round(amount);
       }
+      state.tax = Math.round(state.cartTotal * 0.21);
     }
   },
+
+  setSelectedItem: (state, action) => {
+    let { id, name, num } = action.payload;
+    state.cart[id].selectedAttribute[name] = num;
+  },
+
   setsingleProductId: (state, action) => {
     state.singleProductId = action.payload;
   },
@@ -30,16 +37,20 @@ const shopActions = {
     state.cart[id].quantity = num;
     if (func === "increase") {
       state.cartTotal += Math.round(amount);
+      state.tax = Math.round(state.cartTotal * 0.21);
     }
     if (func === "decrease") {
       state.cartTotal -= Math.round(amount);
+      state.tax = Math.round(state.cartTotal * 0.21);
     }
   },
 
   deleteFromCart: (state, action) => {
-    delete state.cart[action.payload];
+    delete state.cart[action.payload.id];
     state.itemsInCart--;
     state.totalCartProductQuantity--;
+    state.cartTotal -= Math.round(action.payload.amount * action.payload.num);
+    state.tax = Math.round(state.cartTotal * 0.21);
   },
 
   increaseTotalQty: (state, action) => {

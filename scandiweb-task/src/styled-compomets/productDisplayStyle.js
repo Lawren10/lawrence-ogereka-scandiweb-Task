@@ -6,6 +6,11 @@ export const ProductdisplayCont = styled.section`
   display: flex;
   align-items: flex-start;
   gap: 3rem;
+
+  @media screen and (max-width: 920px) {
+    flex-direction: column;
+    padding: 2rem;
+  }
 `;
 
 // Product Display picture styles
@@ -14,11 +19,18 @@ export const PicWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 2rem;
+  @media screen and (max-width: 920px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 export const LargeProductPicCont = styled.div`
   width: 80%;
   height: 25rem;
+  @media screen and (max-width: 920px) {
+    width: 100%;
+  }
 `;
 
 export const PicListCont = styled.ul`
@@ -37,6 +49,33 @@ export const PicListCont = styled.ul`
     background: #888;
     border-radius: 0.2rem;
   }
+
+  @media screen and (max-width: 920px) {
+    width: 52rem;
+    display: flex;
+    gap: 1rem;
+    height: auto;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      width: 0.3rem;
+      border-radius: 0.2rem;
+    }
+    &::-webkit-scrollbar-track {
+      background: #fff;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 0.2rem;
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    width: 47rem;
+  }
+  @media screen and (max-width: 420px) {
+    width: 22rem;
+  }
 `;
 
 export const SmallProductPicCont = styled.li`
@@ -46,6 +85,11 @@ export const SmallProductPicCont = styled.li`
   margin-bottom: 1rem;
   &:hover {
     box-shadow: 0.2rem 0.8rem 2rem 0 #f0f0f0;
+  }
+
+  @media screen and (max-width: 920px) {
+    width: 12rem;
+    height: auto;
   }
 `;
 
@@ -58,6 +102,9 @@ export const ProductPic = styled.img`
 //Product Discription display styles
 export const ProductDescWrap = styled.section`
   width: 30%;
+  @media screen and (max-width: 920px) {
+    width: 100%;
+  }
 `;
 
 export const ProductName = styled.h1`

@@ -35,7 +35,7 @@ export class Cart extends Component {
                   placeContent: "center",
                 }}
               >
-                <h1>Sorry Your Cart Is Empty</h1>;
+                <h1>Sorry Your Cart Is Empty</h1>
               </div>
             ) : (
               <MiniCart />

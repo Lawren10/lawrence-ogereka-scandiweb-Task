@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   NavWrapper,
   CurrCartWrap,
+  LogoWrap,
 } from "../../styled-compomets/Navcomp-styles";
 import CategoriesNav from "./Categories-nav";
 import CurrencyNav from "./Currency-nav";
@@ -14,7 +15,9 @@ export class Navcomp extends Component {
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
         <NavWrapper>
           <CategoriesNav />
-          <img src={logo} alt="logo" style={{ marginLeft: "auto" }}></img>
+          <LogoWrap>
+            <img src={logo} alt="logo"></img>
+          </LogoWrap>
           <CurrCartWrap>
             <CurrencyNav />
             <CartNav />

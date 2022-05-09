@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   QuantityChange,
   QuantityCount,
+  QuantityWraper,
 } from "../../styled-compomets/ShopCartStyles";
 import { connect } from "react-redux";
 import { Action } from "../../redux/storereducer";
@@ -18,7 +19,7 @@ export class CartItemQuantity extends Component {
 
     if (func === "decrease") {
       if (num <= 1) {
-        this.props.deleteFromCart(id);
+        this.props.deleteFromCart({ id, num, amount });
         return;
       }
       num = num - 1;
@@ -31,7 +32,7 @@ export class CartItemQuantity extends Component {
     let { quantity, id, amount } = this.props;
     // console.log(this.props);
     return (
-      <>
+      <QuantityWraper>
         <QuantityChange
           onClick={() => {
             this.changeItemQuantity("increase", quantity, id, amount);
@@ -49,7 +50,7 @@ export class CartItemQuantity extends Component {
         >
           -
         </QuantityChange>
-      </>
+      </QuantityWraper>
     );
   }
 }
@@ -72,8 +73,8 @@ const mapDispatchToProps = (dispatch) => {
     decreaseTotalQty: () => {
       dispatch(decreaseTotalQty());
     },
-    deleteFromCart: (id) => {
-      dispatch(deleteFromCart(id));
+    deleteFromCart: ({ id, num, amount }) => {
+      dispatch(deleteFromCart({ id, num, amount }));
     },
   };
 };

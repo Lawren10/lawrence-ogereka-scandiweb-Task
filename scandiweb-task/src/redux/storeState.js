@@ -13,6 +13,7 @@ const fullShop = {
   cartTotal: 0,
   itemsInCart: 0,
   totalCartProductQuantity: 0,
+  tax: 0,
 };
 
 export default fullShop;
