@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { keyframes, css } from "styled-components";
 
+export const Nav = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+`;
+
 export const NavWrapper = styled.nav`
   width: 100%;
   padding: 0 4rem;
@@ -37,6 +43,7 @@ export const NavButton = styled.button`
   font-family: inherit;
   color: ${({ active }) => (active ? "#5ece7b;" : "none")};
   background: transparent;
+  text-transform: capitalize;
   cursor: pointer;
 `;
 
@@ -118,18 +125,14 @@ export const CartList = styled.ul`
   right: 0;
   top: 100%;
   padding: 0.2rem;
-  width: 20rem;
+  width: 25rem;
   height: 32rem;
   background-color: white;
   border: 1px solid #f0f0f0;
   list-style-type: none;
   z-index: 5;
-  display: none;
+  display: ${({ show }) => (show === true ? "block" : "none")};
   transition: all 0.5s ease-in;
-  ${CartBtn}:hover & {
-    display: block;
-    transition: all 0.5s ease-in;
-  }
   @media screen and (max-width: 420px) {
     ${CartBtn}:hover & {
       display: none;
@@ -146,12 +149,8 @@ export const CartOverLay = styled.div`
   height: 89.5vh;
   background-color: rgba(57, 55, 72, 0.22);
   z-index: 3;
-  display: none;
+  display: ${({ show }) => (show === true ? "block" : "none")};
   transition: all 0.5s ease-in;
-  ${CartBtn}:hover & {
-    display: block;
-    transition: all 0.5s ease-in;
-  }
   @media screen and (max-width: 420px) {
     ${CartBtn}:hover & {
       display: none;
@@ -179,4 +178,16 @@ export const CartCount = styled.div`
   right: 0.3rem;
   top: 0.8rem;
   text-align: center;
+`;
+
+export const CurrencyItem = styled.span`
+  pointer-events: none;
+`;
+
+export const MiniCartMessage = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 90%;
+  display: grid;
+  place-content: center;
 `;

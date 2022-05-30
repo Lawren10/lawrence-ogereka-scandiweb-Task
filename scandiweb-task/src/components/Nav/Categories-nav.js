@@ -12,15 +12,20 @@ export class CategoriesNav extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      all: "Active",
-      clothes: "",
-      tech: "",
-    };
+    this.state = {};
   }
   componentDidMount() {
     this.props.getCategory("all");
   }
+
+  componentDidUpdate() {
+    let len = Object.keys(this.state).length;
+
+    if (len <= 0 && this.props.navCategories.length > 0) {
+      this.setStateObject(this.props.navCategories);
+    }
+  }
+
   activate = (e) => {
     let id = e.target.id;
 
@@ -37,44 +42,43 @@ export class CategoriesNav extends Component {
     this.props.getCategory(id);
   };
 
+  setStateObject = (arr) => {
+    let obj = {};
+    arr.forEach((element, index) => {
+      let { name } = element;
+      if (index === 0) {
+        obj[name] = "Active";
+      } else {
+        obj[name] = "";
+      }
+    });
+
+    this.setState(obj);
+  };
+
   render() {
-    let { all, clothes, tech } = this.state;
+    let { navCategories } = this.props;
+
     return (
       <CategoriesNavWrap>
-        <ShopLink to="/">
-          <NavButton
-            id="all"
-            active={all}
-            onClick={(e) => {
-              this.activate(e);
-            }}
-          >
-            All
-          </NavButton>
-        </ShopLink>
-        <ShopLink to="/">
-          <NavButton
-            id="clothes"
-            active={clothes}
-            onClick={(e) => {
-              this.activate(e);
-            }}
-          >
-            Clothes
-          </NavButton>
-        </ShopLink>
+        {navCategories.length &&
+          navCategories.map((category, index) => {
+            let { name } = category;
 
-        <ShopLink to="/">
-          <NavButton
-            id="tech"
-            active={tech}
-            onClick={(e) => {
-              this.activate(e);
-            }}
-          >
-            Tech
-          </NavButton>
-        </ShopLink>
+            return (
+              <ShopLink to={`/${name}`} key={index}>
+                <NavButton
+                  id={name}
+                  active={this.state[name]}
+                  onClick={(e) => {
+                    this.activate(e);
+                  }}
+                >
+                  {name}
+                </NavButton>
+              </ShopLink>
+            );
+          })}
       </CategoriesNavWrap>
     );
   }
@@ -88,4 +92,11 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CategoriesNav);
+const mapStateToProps = (state) => {
+  let { navCategories } = state.shop;
+  return {
+    navCategories,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoriesNav);

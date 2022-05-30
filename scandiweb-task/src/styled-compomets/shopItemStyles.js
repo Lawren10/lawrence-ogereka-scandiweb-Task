@@ -13,13 +13,23 @@ export const ItemPic = styled.img`
 `;
 
 export const ItemName = styled.h5`
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
   font-weight: 300;
   font-family: inherit;
   font-size: 1.125rem;
   line-height: 2rem;
   opacity: ${({ inStock }) => (inStock ? 1 : 0.5)};
 `;
+
+export const ItemBrandName = styled.h5`
+  margin-top: 1.5rem;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 1.125rem;
+  line-height: 2rem;
+  opacity: ${({ inStock }) => (inStock ? 1 : 0.5)};
+`;
+
 export const ItemPrice = styled.h5`
   font-weight: 500;
   font-family: inherit;

@@ -4,6 +4,7 @@ import {
   NavCurrencyList,
   NavCurrencyItem,
   NavCurrSelectBtn,
+  CurrencyItem,
 } from "../../styled-compomets/Navcomp-styles";
 import { connect } from "react-redux";
 import { getCurrencies } from "../../redux/asyncQueries";
@@ -13,14 +14,6 @@ import { Action } from "../../redux/storereducer";
 const { setCurrency, setShopCurrency } = Action;
 
 export class CurrencyNav extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      show: false,
-    };
-  }
-
   componentDidMount() {
     this.props.getCurrencies();
   }
@@ -43,27 +36,24 @@ export class CurrencyNav extends Component {
     });
 
     this.props.setShopCurrency(currencyPrices);
-    // console.log(currencyPrices);
   };
 
   render() {
-    let { currencies, selectedCurrency, setCurrency } = this.props;
+    let { currencies, selectedCurrency, setCurrency, showCurrencyList } =
+      this.props;
 
     return (
       <div>
-        <NavCurrencyBtn>
-          <NavCurrSelectBtn
-            onClick={() => {
-              this.setState({ ...this.state, show: !this.state.show });
-            }}
-          >
-            <div>{selectedCurrency}</div>
-            {!this.state.show ? <BiChevronDown /> : <BiChevronUp />}
+        <NavCurrencyBtn id={"currencyBtn"}>
+          <NavCurrSelectBtn>
+            <div id={"currencyBtn"}>{selectedCurrency}</div>
+            {!showCurrencyList ? <BiChevronDown /> : <BiChevronUp />}
           </NavCurrSelectBtn>
-          <NavCurrencyList show={this.state.show}>
+          <NavCurrencyList show={showCurrencyList}>
             {currencies.map((item, index) => {
               return (
                 <NavCurrencyItem
+                  className={"currencyItem"}
                   key={item.label}
                   id={item.symbol}
                   onClick={(e) => {
@@ -71,8 +61,8 @@ export class CurrencyNav extends Component {
                     this.updateShopCurrency(item.symbol);
                   }}
                 >
-                  <span>{item.symbol}</span>
-                  <span>{item.label}</span>
+                  <CurrencyItem>{item.symbol}</CurrencyItem>
+                  <CurrencyItem>{item.label}</CurrencyItem>
                 </NavCurrencyItem>
               );
             })}
@@ -84,12 +74,13 @@ export class CurrencyNav extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let { currencies, prices, products } = state.shop;
+  let { currencies, prices, products, showCurrencyList } = state.shop;
   return {
     currencies: currencies.navCurrencies,
     selectedCurrency: currencies.selectedCurrency,
     prices: prices,
     products: products,
+    showCurrencyList,
   };
 };
 

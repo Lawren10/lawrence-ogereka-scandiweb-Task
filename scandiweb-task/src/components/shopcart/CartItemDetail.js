@@ -11,14 +11,13 @@ import {
   CartContentWrap,
 } from "../../styled-compomets/ShopCartStyles";
 
-import { connect } from "react-redux";
-import { Action } from "../../redux/storereducer";
-let { setSelectedItem } = Action;
+// import { connect } from "react-redux";
+// import { Action } from "../../redux/storereducer";
+// let { setSelectedItem } = Action;
 
 export class CartItemDetail extends Component {
   render() {
-    let { att, name, brand, id, price, selectedAttribute, setSelectedItem } =
-      this.props;
+    let { att, name, brand, price, selectedAttribute } = this.props;
 
     let { amount, currency } = price;
     return (
@@ -44,9 +43,9 @@ export class CartItemDetail extends Component {
                             : false
                         }
                         key={`${name}${displayValue}${num}`}
-                        onClick={() => {
-                          setSelectedItem({ id, name, num: displayValue });
-                        }}
+                        // onClick={() => {
+                        //   setSelectedItem({ id, name, num: displayValue });
+                        // }}
                       >
                         {displayValue}
                       </CartSizeCont>
@@ -58,9 +57,9 @@ export class CartItemDetail extends Component {
                       selected={
                         selectedAttribute[name] === displayValue ? true : false
                       }
-                      onClick={() => {
-                        setSelectedItem({ id, name, num: displayValue });
-                      }}
+                      // onClick={() => {
+                      //   setSelectedItem({ id, name, num: displayValue });
+                      // }}
                     />
                   );
                 })}
@@ -73,12 +72,12 @@ export class CartItemDetail extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setSelectedItem: ({ id, name, num }) => {
-      dispatch(setSelectedItem({ id, name, num }));
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     setSelectedItem: ({ id, name, num }) => {
+//       dispatch(setSelectedItem({ id, name, num }));
+//     },
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(CartItemDetail);
+export default CartItemDetail;

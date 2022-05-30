@@ -31,26 +31,30 @@ export class MiniCartItemQuantity extends Component {
   };
 
   render() {
-    let { quantity, id, amount } = this.props;
+    let { quantity, cartId, amount } = this.props;
 
     return (
-      <QuantityWraper mini={"true"}>
+      <QuantityWraper mini={"true"} id="mini">
         <QuantityChange
           onClick={() => {
-            this.changeItemQuantity("increase", quantity, id, amount);
+            this.changeItemQuantity("increase", quantity, cartId, amount);
           }}
           start={"true"}
           mini={"true"}
+          id="mini"
         >
           +
         </QuantityChange>
-        <QuantityCount mini={"true"}>{quantity}</QuantityCount>
+        <QuantityCount mini={"true"} id="mini">
+          {quantity}
+        </QuantityCount>
         <QuantityChange
           onClick={() => {
-            this.changeItemQuantity("decrease", quantity, id, amount);
+            this.changeItemQuantity("decrease", quantity, cartId, amount);
           }}
           start={"false"}
           mini={"true"}
+          id="mini"
         >
           -
         </QuantityChange>

@@ -41,6 +41,14 @@ export const QueryCurrencies = gql`
   }
 `;
 
+export const GetCategory = gql`
+  {
+    categories {
+      name
+    }
+  }
+`;
+
 export const QuerySigleProduct = gql`
   query getSingleProduct($id: String!) {
     product(id: $id) {

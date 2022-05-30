@@ -1,5 +1,6 @@
 const fullShop = {
   products: [],
+  navCategories: [],
   categoryName: "",
   currencies: {
     navCurrencies: [],
@@ -7,7 +8,10 @@ const fullShop = {
   },
   prices: [],
   displayPrice: [],
+  showCurrencyList: false,
+  showCartOverlay: false,
   singleProductId: "",
+  generatedId: "",
   selectedproduct: {},
   cart: {},
   cartTotal: 0,

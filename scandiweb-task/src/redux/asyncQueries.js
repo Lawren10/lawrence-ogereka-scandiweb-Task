@@ -3,7 +3,8 @@ import {
   QueryCategory,
   QueryCurrencies,
   QuerySigleProduct,
-  CartProduct,
+  // CartProduct,
+  GetCategory,
 } from "../GQLquery/queries";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -16,6 +17,7 @@ export const getCategory = createAsyncThunk(
     let { selectedCurrency } = currencies;
 
     try {
+      let category = await Client.request(GetCategory);
       let res = await Client.request(QueryCategory, variables);
       let { products } = res.category;
       let currencyPrices = {};
@@ -34,7 +36,7 @@ export const getCategory = createAsyncThunk(
         currencyPrices[id] = { ...prodPrice[0] };
       });
 
-      return { res, currencyPrices, fullPriceArr };
+      return { res, currencyPrices, fullPriceArr, category };
     } catch (error) {
       return error;
     }
@@ -53,10 +55,11 @@ export const getCurrencies = createAsyncThunk("getCurrencies", async () => {
 
 export const getSingleProduct = createAsyncThunk(
   "getSingleProduct",
-  async (pid) => {
+  async (pid, thunkApi) => {
     let variables = { id: pid };
 
     try {
+      await thunkApi.dispatch(getCategory("all"));
       let res = await Client.request(QuerySigleProduct, variables);
       return res;
     } catch (error) {
@@ -65,20 +68,23 @@ export const getSingleProduct = createAsyncThunk(
   }
 );
 
-export const addToCart = createAsyncThunk(
-  "addToCart",
-  async (pid, thunkApi) => {
-    let variables = { id: pid };
-    let shopstate = thunkApi.getState();
-    let { displayPrice } = shopstate.shop;
-    try {
-      let res = await Client.request(CartProduct, variables);
+// export const addToCart = createAsyncThunk(
+//   "addToCart",
+//   async (pid, thunkApi) => {
+//     let variables = { id: pid };
+//     let shopstate = thunkApi.getState();
+//     let { displayPrice, selectedproduct } = shopstate.shop;
+//     let selectedAtt = selectedproduct.selectedAttribute;
+//     try {
+//       let res = await Client.request(CartProduct, variables);
 
-      res.product.price = displayPrice[pid];
-      res.product.quantity = 1;
-      return res.product;
-    } catch (error) {
-      return error;
-    }
-  }
-);
+//       res.product.price = displayPrice[pid];
+//       res.product.quantity = 1;
+//       res.product.selectedAttribute = selectedAtt;
+
+//       return res.product;
+//     } catch (error) {
+//       return error.message;
+//     }
+//   }
+// );

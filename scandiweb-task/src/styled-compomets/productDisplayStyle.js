@@ -131,6 +131,9 @@ export const ProductSizeCont = styled.div`
   font-family: "Source Sans Pro";
   padding: 0.5rem 1rem;
   border: 1px solid #1d1f22;
+  cursor: pointer;
+  ${({ selected }) =>
+    selected === true ? "background-color:black;color:white" : ""};
 `;
 
 export const ProductSwatch = styled.div`
@@ -138,6 +141,8 @@ export const ProductSwatch = styled.div`
   height: 2rem;
   background-color: ${({ color }) => (color ? color : "")};
   box-shadow: 0.2rem 0.8rem 2rem 0 #f0f0f0;
+  cursor: pointer;
+  ${({ selected }) => (selected === true ? "border:2px solid #5ece7b" : "")};
 `;
 
 export const ProductSizeContWrap = styled.div`
@@ -201,4 +206,8 @@ export const ProductDescriptionText = styled.p`
     background: #888;
     border-radius: 0.2rem;
   }
+`;
+
+export const PDivider = styled.div`
+  margin-bottom: ${({ bottom }) => (bottom ? `${bottom}` : "")};
 `;

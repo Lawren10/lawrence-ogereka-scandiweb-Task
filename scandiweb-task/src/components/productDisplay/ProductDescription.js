@@ -11,60 +11,170 @@ import {
   ProductAddToCartBtn,
   ProductDescriptionText,
   ProductSwatch,
+  PDivider,
 } from "../../styled-compomets/productDisplayStyle";
 import { connect } from "react-redux";
-import { addToCart } from "../../redux/asyncQueries";
+import { Action } from "../../redux/storereducer";
+
+let {
+  setSelectedItem,
+  addToCart,
+  setGeneratedId,
+  increaseSameProductQuantity,
+  increaseTotalQty,
+} = Action;
 
 export class ProductDescription extends Component {
   constructor(props) {
     super(props);
-
+    this.descRef = React.createRef();
     this.state = {
       added: false,
       show: false,
     };
   }
 
+  update = () => {
+    setTimeout(() => {
+      this.descRef.current.innerHTML = this.props.description;
+    }, 0);
+  };
+
+  checkIdenticalAttribute = (selectedProduct, productinCart, checklength) => {
+    let checksame = 0;
+
+    for (let att in selectedProduct) {
+      if (selectedProduct[att] === productinCart[att]) {
+        checksame = checksame + 1;
+      }
+    }
+
+    if (checksame === checklength) {
+      return true;
+    }
+
+    return false;
+  };
+
   showMessage = (id) => {
-    let clearMessage1;
     let clearMessage2;
-    if (id in this.props.cart) {
-      clearTimeout(clearMessage1);
-      this.setState({ added: false, show: true });
-      clearMessage1 = setTimeout(() => {
-        this.setState({ added: false, show: false });
+    let storeCart = this.props.cart;
+    let presentProductAttribute = this.props.selectedAttribute;
+    let appendToId = Date.now();
+
+    let storeCartKeys = Object.keys(storeCart);
+    let identicalProduct = storeCartKeys.filter((item) => item.includes(id));
+    let keysLength = Object.keys(presentProductAttribute).length;
+
+    if (this.props.generatedId.length > 0 && storeCartKeys.length > 0) {
+      let prevProductAtt = storeCart[this.props.generatedId].selectedAttribute;
+      let initialAttributeCheck = this.checkIdenticalAttribute(
+        presentProductAttribute,
+        prevProductAtt,
+        keysLength
+      );
+
+      if (initialAttributeCheck) {
+        let amount = storeCart[this.props.generatedId].price.amount;
+
+        this.props.increaseSameProductQuantity({
+          id: this.props.generatedId,
+          amount,
+        });
+        this.props.increaseTotalQty();
+        clearTimeout(clearMessage2);
+        this.setState({ ...this.state, added: true, show: true });
+        clearMessage2 = setTimeout(() => {
+          this.setState({ added: false, show: false });
+        }, 1000);
+        return;
+      }
+    }
+
+    if (identicalProduct.length > 0) {
+      let sameAttProductId = "";
+      identicalProduct.forEach((key) => {
+        let itemInnerAttribute = storeCart[key].selectedAttribute;
+
+        let sameAttCheck = this.checkIdenticalAttribute(
+          itemInnerAttribute,
+          presentProductAttribute,
+          keysLength
+        );
+
+        if (sameAttCheck) {
+          sameAttProductId = key;
+          return;
+        }
+
+        return;
+      });
+
+      if (sameAttProductId.length > 0) {
+        let amount = storeCart[sameAttProductId].price.amount;
+
+        this.props.increaseSameProductQuantity({
+          id: sameAttProductId,
+          amount,
+        });
+        this.props.increaseTotalQty();
+        clearTimeout(clearMessage2);
+        this.setState({ added: true, show: true });
+        clearMessage2 = setTimeout(() => {
+          this.setState({ ...this.state, added: false, show: false });
+        }, 1000);
+        return;
+      }
+
+      console.log("adding");
+      let newId = `${id}${appendToId}`;
+
+      this.props.addToCart({
+        id: newId,
+        currentProduct: this.props.selectedproduct,
+      });
+      this.props.setGeneratedId(`${id}${appendToId}`);
+      clearTimeout(clearMessage2);
+      this.setState({ added: true, show: true });
+      clearMessage2 = setTimeout(() => {
+        this.setState({ ...this.state, added: false, show: false });
       }, 1000);
       return;
+    } else {
+      this.props.addToCart({ id, currentProduct: this.props.selectedproduct });
+      this.props.setGeneratedId(id);
+      clearTimeout(clearMessage2);
+      this.setState({ added: true, show: true });
+      clearMessage2 = setTimeout(() => {
+        this.setState({ ...this.state, added: false, show: false });
+      }, 1000);
     }
-    this.props.addToCart(id);
-    clearTimeout(clearMessage2);
-    this.setState({ added: true, show: true });
-    clearMessage2 = setTimeout(() => {
-      this.setState({ added: false, show: false });
-    }, 1000);
   };
 
   render() {
     let {
       attributes,
       brand,
-      description,
       name,
       amount,
       currency,
       inStock,
       id,
+      selectedAttribute,
+      setSelectedItem,
     } = this.props;
     if (attributes === undefined) {
       return;
     }
 
+    this.update();
+
     return (
       <ProductDescWrap>
-        <div style={{ marginBottom: "1.5rem" }}>
+        <PDivider bottom={"1.5rem"}>
           <ProductName>{name}</ProductName>
           <ProductBrandName>{brand}</ProductBrandName>
-        </div>
+        </PDivider>
 
         <div style={{ marginBottom: "1rem" }}>
           {attributes.map((att, index) => {
@@ -74,12 +184,34 @@ export class ProductDescription extends Component {
                 <ProductLabel>{name}</ProductLabel>
                 <ProductSizeContWrap>
                   {items.map((item, num) => {
+                    let { displayValue } = item;
                     return type !== "swatch" ? (
-                      <ProductSizeCont key={num}>
+                      <ProductSizeCont
+                        selected={
+                          selectedAttribute[name] === displayValue
+                            ? true
+                            : false
+                        }
+                        key={`${name}${displayValue}${num}`}
+                        onClick={() => {
+                          setSelectedItem({ id, name, num: displayValue });
+                        }}
+                      >
                         {item.displayValue}
                       </ProductSizeCont>
                     ) : (
-                      <ProductSwatch color={item.displayValue} key={num} />
+                      <ProductSwatch
+                        color={item.displayValue}
+                        key={`${name}${displayValue}${num}`}
+                        selected={
+                          selectedAttribute[name] === displayValue
+                            ? true
+                            : false
+                        }
+                        onClick={() => {
+                          setSelectedItem({ id, name, num: displayValue });
+                        }}
+                      />
                     );
                   })}
                 </ProductSizeContWrap>
@@ -88,10 +220,10 @@ export class ProductDescription extends Component {
           })}
         </div>
 
-        <div style={{ marginBottom: "1rem" }}>
+        <PDivider bottom={"1rem"}>
           <ProductPriceLabel>Price:</ProductPriceLabel>
           <ProductPrice>{`${currency.symbol} ${amount}`}</ProductPrice>
-        </div>
+        </PDivider>
 
         {!inStock ? (
           <ProductAddToCartBtn instock={inStock}>
@@ -111,9 +243,7 @@ export class ProductDescription extends Component {
           </ProductAddToCartBtn>
         )}
 
-        <ProductDescriptionText
-          dangerouslySetInnerHTML={{ __html: description }}
-        />
+        <ProductDescriptionText ref={this.descRef}></ProductDescriptionText>
       </ProductDescWrap>
     );
   }
@@ -121,16 +251,30 @@ export class ProductDescription extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (id) => {
-      dispatch(addToCart(id));
+    addToCart: ({ id, currentProduct }) => {
+      dispatch(addToCart({ id, currentProduct }));
+    },
+    setSelectedItem: ({ id, name, num }) => {
+      dispatch(setSelectedItem({ id, name, num }));
+    },
+    setGeneratedId: (genId) => {
+      dispatch(setGeneratedId(genId));
+    },
+    increaseSameProductQuantity: ({ id, amount }) => {
+      dispatch(increaseSameProductQuantity({ id, amount }));
+    },
+    increaseTotalQty: () => {
+      dispatch(increaseTotalQty());
     },
   };
 };
 
 const mapStateToProps = (state) => {
-  let { cart } = state.shop;
+  let { cart, selectedproduct, generatedId } = state.shop;
   return {
     cart,
+    selectedproduct,
+    generatedId,
   };
 };
 
