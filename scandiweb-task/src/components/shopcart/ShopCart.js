@@ -7,6 +7,7 @@ import {
   TotalPriceWrap,
   CartPriceLabel,
   Cartvalue,
+  ShopCartEmptyMessage,
 } from "../../styled-compomets/ShopCartStyles";
 
 import { ProductAddToCartBtn } from "../../styled-compomets/productDisplayStyle";
@@ -31,7 +32,7 @@ export class ShopCart extends Component {
         selectedAttribute,
       } = cartitem[item];
       let { amount } = price;
-      // console.log(cartitem[item]);
+
       arry.push(
         <CartItem key={item}>
           <CartItemDetail
@@ -44,7 +45,7 @@ export class ShopCart extends Component {
           />
           <CartItemQuantity
             quantity={quantity}
-            id={id}
+            cartId={item}
             amount={amount}
           ></CartItemQuantity>
           <CartPictures gallery={gallery} />
@@ -59,17 +60,9 @@ export class ShopCart extends Component {
     let { cart, cartTotal, symbol, quantity, tax } = this.props;
     if (Object.keys(cart).length === 0) {
       return (
-        <div
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "90%",
-            display: "grid",
-            placeContent: "center",
-          }}
-        >
+        <ShopCartEmptyMessage>
           <h1>Sorry Your Cart Is Empty</h1>
-        </div>
+        </ShopCartEmptyMessage>
       );
     }
     return (

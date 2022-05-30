@@ -8,33 +8,39 @@ import {
   CartSwatch,
   CartContWrap,
   LabelWrap,
+  MiniCartItemDetailWrap,
 } from "../../styled-compomets/ShopCartStyles";
-import { connect } from "react-redux";
-import { Action } from "../../redux/storereducer";
-let { setSelectedItem } = Action;
 
 export class MiniCartItemDetail extends Component {
   render() {
-    let { att, name, brand, id, price, selectedAttribute, setSelectedItem } =
-      this.props;
+    let { att, name, brand, price, selectedAttribute } = this.props;
 
     let { amount, currency } = price;
     return (
-      <div style={{ marginRight: "auto" }}>
-        <CartItemName mini={"true"}>{name}</CartItemName>
-        <CartItemBrandName mini={"true"}>{brand}</CartItemBrandName>
-        <CartPrice mini={"true"}>{`${currency.symbol}${amount}`}</CartPrice>
+      <MiniCartItemDetailWrap id="mini">
+        <CartItemName mini={"true"} id="mini">
+          {name}
+        </CartItemName>
+        <CartItemBrandName mini={"true"} id="mini">
+          {brand}
+        </CartItemBrandName>
+        <CartPrice
+          mini={"true"}
+          id="mini"
+        >{`${currency.symbol}${amount}`}</CartPrice>
         {att.map((each, index) => {
           let { name, type, items } = each;
 
           return (
-            <div key={index}>
-              <CartItemLabel mini={"true"}>{name}:</CartItemLabel>
-              <CartContWrap mini={"true"}>
+            <div key={index} id="mini">
+              <CartItemLabel mini={"true"} id="mini">
+                {name}:
+              </CartItemLabel>
+              <CartContWrap mini={"true"} id="mini">
                 {items.map((item, num) => {
                   let { displayValue } = item;
                   return type !== "swatch" ? (
-                    <LabelWrap key={`${num}${type}`}>
+                    <LabelWrap key={`${num}${type}`} id="mini">
                       <CartSizeCont
                         mini={"true"}
                         selected={
@@ -42,9 +48,7 @@ export class MiniCartItemDetail extends Component {
                             ? true
                             : false
                         }
-                        onClick={() => {
-                          setSelectedItem({ id, name, num: displayValue });
-                        }}
+                        id="mini"
                       >
                         {displayValue}
                       </CartSizeCont>
@@ -56,9 +60,7 @@ export class MiniCartItemDetail extends Component {
                       selected={
                         selectedAttribute[name] === displayValue ? true : false
                       }
-                      onClick={() => {
-                        setSelectedItem({ id, name, num: displayValue });
-                      }}
+                      id="mini"
                     />
                   );
                 })}
@@ -66,17 +68,9 @@ export class MiniCartItemDetail extends Component {
             </div>
           );
         })}
-      </div>
+      </MiniCartItemDetailWrap>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setSelectedItem: ({ id, name, num }) => {
-      dispatch(setSelectedItem({ id, name, num }));
-    },
-  };
-};
-
-export default connect(null, mapDispatchToProps)(MiniCartItemDetail);
+export default MiniCartItemDetail;

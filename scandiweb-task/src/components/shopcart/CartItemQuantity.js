@@ -29,13 +29,13 @@ export class CartItemQuantity extends Component {
   };
 
   render() {
-    let { quantity, id, amount } = this.props;
-    // console.log(this.props);
+    let { quantity, amount, cartId } = this.props;
+
     return (
       <QuantityWraper>
         <QuantityChange
           onClick={() => {
-            this.changeItemQuantity("increase", quantity, id, amount);
+            this.changeItemQuantity("increase", quantity, cartId, amount);
           }}
           start={"true"}
         >
@@ -44,7 +44,7 @@ export class CartItemQuantity extends Component {
         <QuantityCount>{quantity}</QuantityCount>
         <QuantityChange
           onClick={() => {
-            this.changeItemQuantity("decrease", quantity, id, amount);
+            this.changeItemQuantity("decrease", quantity, cartId, amount);
           }}
           start={"false"}
         >

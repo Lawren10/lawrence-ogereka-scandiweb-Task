@@ -9,46 +9,18 @@ import {
   ItemPic,
   OutOfStockOverLay,
   OutOfStockText,
-  AddedToCartMessage,
+  ItemBrandName,
 } from "../styled-compomets/shopItemStyles";
 import { ShopLink } from "../styled-compomets/Global-style-theme";
 import { connect } from "react-redux";
 import { Action } from "../redux/storereducer";
-import { addToCart } from "../redux/asyncQueries";
+
 let { setsingleProductId, setSelectedProduct } = Action;
 
 export class ShopItem extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      added: false,
-      show: false,
-    };
-  }
-
-  showMessage = (id) => {
-    let clearMessage1;
-    let clearMessage2;
-    if (id in this.props.cart) {
-      clearTimeout(clearMessage1);
-      this.setState({ added: false, show: true });
-      clearMessage1 = setTimeout(() => {
-        this.setState({ added: false, show: false });
-      }, 1000);
-      return;
-    }
-    this.props.addToCart(id);
-    clearTimeout(clearMessage2);
-    this.setState({ added: true, show: true });
-    clearMessage2 = setTimeout(() => {
-      this.setState({ added: false, show: false });
-    }, 1000);
-  };
-
   render() {
     let { product, Price } = this.props;
-    let { name, id, gallery, inStock } = product;
+    let { name, id, gallery, inStock, brand } = product;
 
     let { amount, currency } = Price;
 
@@ -65,26 +37,17 @@ export class ShopItem extends Component {
                   </OutOfStockOverLay>
                 )}
               </PicContainer>
+              <ItemBrandName inStock={inStock}>{brand && brand}</ItemBrandName>
               <ItemName inStock={inStock}>{name && name}</ItemName>
               <ItemPrice
                 inStock={inStock}
               >{`${currency.symbol} ${amount}`}</ItemPrice>
+              {inStock && (
+                <AddToChartBtn>
+                  <BsCart2 />
+                </AddToChartBtn>
+              )}
             </ShopLink>
-            {inStock && (
-              <AddToChartBtn
-                onClick={() => {
-                  this.showMessage(id);
-                }}
-              >
-                <BsCart2 />
-              </AddToChartBtn>
-            )}
-            <AddedToCartMessage
-              show={this.state.show}
-              added={this.state.added}
-            >{`${
-              this.state.added ? "Item Added To Cart" : "Item Already In Cart"
-            }`}</AddedToCartMessage>
           </ItemWrapper>
         }
       </>
@@ -99,9 +62,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     setSelectedProduct: (prod) => {
       dispatch(setSelectedProduct(prod));
-    },
-    addToCart: (id) => {
-      dispatch(addToCart(id));
     },
   };
 };

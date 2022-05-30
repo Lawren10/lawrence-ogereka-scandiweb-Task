@@ -46,12 +46,12 @@ export const CartItem = styled.li`
 export const CartContentWrap = styled.div``;
 
 export const CartItemName = styled.h1`
-  font-size: ${({ mini }) => (mini === "true" ? "1rem" : "1.6rem")};
+  font-size: ${({ mini }) => (mini === "true" ? "0.9rem" : "1.6rem")};
   font-weight: ${({ mini }) => (mini === "true" ? "400" : " 600")};
 `;
 
 export const CartItemBrandName = styled.h2`
-  font-size: ${({ mini }) => (mini === "true" ? "1rem" : "1.6rem")};
+  font-size: ${({ mini }) => (mini === "true" ? "0.9rem" : "1.6rem")};
   font-weight: 400;
 `;
 
@@ -63,7 +63,7 @@ export const CartItemLabel = styled.h4`
 `;
 
 export const CartPrice = styled.h2`
-  font-size: ${({ mini }) => (mini === "true" ? "1rem" : "1.3rem")};
+  font-size: ${({ mini }) => (mini === "true" ? "0.9rem" : "1.3rem")};
   font-weight: 700;
   margin-top: ${({ mini }) => (mini === "true" ? "0.4rem" : "0.8rem")};
 `;
@@ -80,15 +80,15 @@ export const CartContWrap = styled.div`
   width: ${({ mini }) => (mini === "true" ? "80%" : "")};
   display: flex;
   flex-wrap: wrap;
-  gap: ${({ mini }) => (mini === "true" ? "0.5rem" : "1rem")};
+  gap: ${({ mini }) => (mini === "true" ? "0.3rem" : "1rem")};
   margin-bottom: 0.5rem;
 `;
 
 export const CartSizeCont = styled.div`
-  font-size: ${({ mini }) => (mini === "true" ? "0.8rem" : "1rem")};
+  font-size: ${({ mini }) => (mini === "true" ? "0.7rem" : "1rem")};
   font-weight: 400;
   font-family: "Source Sans Pro";
-  padding: ${({ mini }) => (mini === "true" ? "0.2rem 0.5rem" : "0.5rem 1rem")};
+  padding: ${({ mini }) => (mini === "true" ? "0.2rem 0.3rem" : "0.5rem 1rem")};
   border: 1px solid #1d1f22;
   cursor: pointer;
   ${({ selected }) =>
@@ -103,7 +103,7 @@ export const LabelWrap = styled.div`
 export const QuantityWraper = styled.div`
   position: absolute;
   height: 100%;
-  left: ${({ mini }) => (mini === "true" ? "65%" : "65%")};
+  left: ${({ mini }) => (mini === "true" ? "45%" : "65%")};
   top: 0;
   padding: 0.6rem 0;
   display: flex;
@@ -160,7 +160,7 @@ export const CartPicContainer = styled.section`
   position: absolute;
   height: 100%;
   right: 0;
-  width: 20%;
+  width: 30%;
   margin-left: 0.5rem;
   align-self: center;
   @media screen and (max-width: 420px) {
@@ -192,4 +192,27 @@ export const MiniCartTotalView = styled.section`
   bottom: 0;
   width: 100%;
   padding: 0 1rem;
+`;
+
+export const MiniCartItemDetailWrap = styled.div`
+  margin-right: auto;
+`;
+
+export const MinicartTotalCont = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+`;
+export const MinicartButtonCont = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+`;
+
+export const ShopCartEmptyMessage = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 90%;
+  display: grid;
+  place-content: center;
 `;

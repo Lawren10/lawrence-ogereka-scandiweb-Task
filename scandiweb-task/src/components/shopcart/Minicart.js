@@ -7,6 +7,8 @@ import {
   CartPriceLabel,
   Cartvalue,
   MiniCartTotalView,
+  MinicartTotalCont,
+  MinicartButtonCont,
 } from "../../styled-compomets/ShopCartStyles";
 
 import { ProductAddToCartBtn } from "../../styled-compomets/productDisplayStyle";
@@ -34,7 +36,7 @@ export class MiniCart extends Component {
       let { amount } = price;
 
       arry.push(
-        <CartItem key={item} mini={"true"}>
+        <CartItem key={item} mini={"true"} id="mini">
           <MiniCartItemDetail
             att={attributes}
             name={name}
@@ -45,10 +47,10 @@ export class MiniCart extends Component {
           />
           <MiniCartItemQuantity
             quantity={quantity}
-            id={id}
+            cartId={item}
             amount={amount}
           ></MiniCartItemQuantity>
-          <MiniCartPictures gallery={gallery} />
+          <MiniCartPictures gallery={gallery} id="mini" />
         </CartItem>
       );
     }
@@ -61,44 +63,44 @@ export class MiniCart extends Component {
 
     return (
       <>
-        <Cart mini={"true"}>
-          <CartHeader mini={"true"}>
+        <Cart mini={"true"} id="mini">
+          <CartHeader mini={"true"} id="mini">
             My Bag,
-            <span style={{ fontWeight: "400" }}>
+            <span style={{ fontWeight: "400" }} id="mini">
               {itemsInCart} item{itemsInCart > 1 ? "s" : ""}
             </span>
           </CartHeader>
-          <CartItemsContainer mini={"true"}>
+          <CartItemsContainer mini={"true"} id="mini">
             {this.loop(cart)}
           </CartItemsContainer>
         </Cart>
-        <MiniCartTotalView>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: "0.5rem",
-            }}
-          >
-            <CartPriceLabel total={"true"} mini={"true"}>
+        <MiniCartTotalView id="mini">
+          <MinicartTotalCont id="mini">
+            <CartPriceLabel total={"true"} mini={"true"} id="mini">
               Total:
             </CartPriceLabel>
-            <Cartvalue mini={"true"}>{`${symbol}${cartTotal}`}</Cartvalue>
-          </div>
-          <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+            <Cartvalue
+              datatype={"true"}
+              id="mini"
+            >{`${symbol}${cartTotal}`}</Cartvalue>
+          </MinicartTotalCont>
+          <MinicartButtonCont id="mini">
             <ProductAddToCartBtn
               order={"true"}
               instock={false}
               minicart={"true"}
               mini={"true"}
+              id="mini"
             >
-              <ShopLink to="/cart">View Bag</ShopLink>
+              <ShopLink to="/cart" id="mini">
+                View Bag
+              </ShopLink>
             </ProductAddToCartBtn>
 
-            <ProductAddToCartBtn order={"true"} mini={"true"}>
+            <ProductAddToCartBtn order={"true"} mini={"true"} id="mini">
               Check Out
             </ProductAddToCartBtn>
-          </div>
+          </MinicartButtonCont>
         </MiniCartTotalView>
       </>
     );

@@ -4,44 +4,53 @@ import {
   CartList,
   CartCount,
   CartOverLay,
+  MiniCartMessage,
 } from "../../styled-compomets/Navcomp-styles";
 import { ShopLink } from "../../styled-compomets/Global-style-theme";
 import { connect } from "react-redux";
 import { getCurrencies } from "../../redux/asyncQueries";
 import { BsCart2 } from "react-icons/bs";
 import MiniCart from "../shopcart/Minicart";
+import { Action } from "../../redux/storereducer";
+
+let { setShowCartOverlay, setShowCurrencyList } = Action;
 
 export class Cart extends Component {
+  handleMouseEnter = (e) => {
+    if (this.props.showCurrencyList === true) {
+      this.props.setShowCurrencyList();
+    }
+    if (this.props.showCartOverlay === false) {
+      this.props.setShowCartOverlay();
+    }
+  };
   render() {
     let { itemsInCart, cart } = this.props;
     let val = Object.keys(cart).length;
+
     return (
       <div>
-        <CartBtn>
+        <CartBtn
+          onMouseEnter={(e) => {
+            this.handleMouseEnter(e);
+          }}
+        >
           <ShopLink to="/cart">
             <i>
               <BsCart2 style={{ fontSize: "1.2rem" }} />
             </i>
             <CartCount>{itemsInCart}</CartCount>
           </ShopLink>
-          <CartList>
+          <CartList show={this.props.showCartOverlay}>
             {val === 0 ? (
-              <div
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "90%",
-                  display: "grid",
-                  placeContent: "center",
-                }}
-              >
+              <MiniCartMessage id="mini">
                 <h1>Sorry Your Cart Is Empty</h1>
-              </div>
+              </MiniCartMessage>
             ) : (
               <MiniCart />
             )}
           </CartList>
-          <CartOverLay />
+          <CartOverLay show={this.props.showCartOverlay} />
         </CartBtn>
       </div>
     );
@@ -49,11 +58,14 @@ export class Cart extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let { Currencies, itemsInCart, cart } = state.shop;
+  let { Currencies, itemsInCart, cart, showCartOverlay, showCurrencyList } =
+    state.shop;
   return {
     currencies: Currencies,
     itemsInCart,
     cart,
+    showCartOverlay,
+    showCurrencyList,
   };
 };
 
@@ -61,6 +73,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCurrencies: () => {
       dispatch(getCurrencies());
+    },
+    setShowCartOverlay: () => {
+      dispatch(setShowCartOverlay());
+    },
+    setShowCurrencyList: () => {
+      dispatch(setShowCurrencyList());
     },
   };
 };

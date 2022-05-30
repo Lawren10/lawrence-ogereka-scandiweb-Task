@@ -9,11 +9,12 @@ const shopActions = {
     if (Object.keys(cart).length > 0) {
       state.cartTotal = 0;
       for (let item in cart) {
-        let newPrice = price[item];
-        let amount = price[item].amount;
-        amount = cart[item].quantity * amount;
+        let itemid = cart[item].id;
+        let newPrice = price[itemid];
+        let amount = price[itemid].amount;
+        amount = cart[itemid].quantity * amount;
 
-        state.cart[item].price = newPrice;
+        state.cart[itemid].price = newPrice;
         state.cartTotal += Math.round(amount);
       }
       state.tax = Math.round(state.cartTotal * 0.21);
@@ -21,8 +22,8 @@ const shopActions = {
   },
 
   setSelectedItem: (state, action) => {
-    let { id, name, num } = action.payload;
-    state.cart[id].selectedAttribute[name] = num;
+    let { name, num } = action.payload;
+    state.selectedproduct.selectedAttribute[name] = num;
   },
 
   setsingleProductId: (state, action) => {
@@ -31,6 +32,31 @@ const shopActions = {
   setSelectedProduct: (state, action) => {
     state.selectedproduct = action.payload;
   },
+
+  addToCart: (state, action) => {
+    let { id, currentProduct } = action.payload;
+
+    let { amount } = currentProduct.price;
+
+    state.cart[id] = currentProduct;
+    state.itemsInCart += 1;
+    state.totalCartProductQuantity = state.totalCartProductQuantity + 1;
+    state.cartTotal += Math.round(amount);
+    state.tax = Math.round(state.cartTotal * 0.21);
+  },
+
+  setShowCurrencyList: (state) => {
+    state.showCurrencyList = !state.showCurrencyList;
+  },
+
+  setShowCartOverlay: (state) => {
+    state.showCartOverlay = !state.showCartOverlay;
+  },
+
+  setGeneratedId: (state, action) => {
+    state.generatedId = action.payload;
+  },
+
   changeQuantity: (state, action) => {
     let { id, num, amount, func } = action.payload;
 
@@ -43,6 +69,13 @@ const shopActions = {
       state.cartTotal -= Math.round(amount);
       state.tax = Math.round(state.cartTotal * 0.21);
     }
+  },
+
+  increaseSameProductQuantity: (state, action) => {
+    let { id, amount } = action.payload;
+    state.cart[id].quantity += 1;
+    state.cartTotal += Math.round(amount);
+    state.tax = Math.round(state.cartTotal * 0.21);
   },
 
   deleteFromCart: (state, action) => {

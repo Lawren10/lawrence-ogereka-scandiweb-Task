@@ -3,6 +3,7 @@ import {
   NavWrapper,
   CurrCartWrap,
   LogoWrap,
+  Nav,
 } from "../../styled-compomets/Navcomp-styles";
 import CategoriesNav from "./Categories-nav";
 import CurrencyNav from "./Currency-nav";
@@ -12,7 +13,7 @@ import logo from "../../asset/a-logo.png";
 export class Navcomp extends Component {
   render() {
     return (
-      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+      <Nav>
         <NavWrapper>
           <CategoriesNav />
           <LogoWrap>
@@ -23,7 +24,7 @@ export class Navcomp extends Component {
             <CartNav />
           </CurrCartWrap>
         </NavWrapper>
-      </div>
+      </Nav>
     );
   }
 }

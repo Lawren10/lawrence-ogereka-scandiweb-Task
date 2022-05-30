@@ -36,15 +36,16 @@ export class MiniCartPictures extends Component {
     let length = gallery.length;
 
     return (
-      <CartPicContainer>
-        <ItemPic src={gallery[this.state.num]} />
+      <CartPicContainer id="mini">
+        <ItemPic src={gallery[this.state.num]} id="mini" />
         {length > 1 ? (
-          <PicButtonContainer mini={"true"}>
+          <PicButtonContainer mini={"true"} id="mini">
             <PicButton
               onClick={() => {
                 this.changePic("dec", length);
               }}
               mini={"true"}
+              id="mini"
             >
               {`<`}
             </PicButton>
@@ -53,6 +54,7 @@ export class MiniCartPictures extends Component {
                 this.changePic("inc", length);
               }}
               mini={"true"}
+              id="mini"
             >
               {`>`}
             </PicButton>

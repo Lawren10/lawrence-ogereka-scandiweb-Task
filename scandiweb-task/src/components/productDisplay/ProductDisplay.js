@@ -21,13 +21,20 @@ class ProductDisplay extends Component {
     if (selectedproduct.attributes === undefined) {
       return <Loading />;
     }
-
+    // console.log(displayPrice, id);
     let singlePrice = displayPrice[id];
 
     let { amount, currency } = singlePrice;
 
-    let { attributes, brand, description, name, gallery, inStock } =
-      selectedproduct;
+    let {
+      attributes,
+      brand,
+      description,
+      name,
+      gallery,
+      inStock,
+      selectedAttribute,
+    } = selectedproduct;
 
     return (
       <ProductdisplayCont>
@@ -41,6 +48,7 @@ class ProductDisplay extends Component {
           currency={currency}
           inStock={inStock}
           id={id}
+          selectedAttribute={selectedAttribute}
         />
       </ProductdisplayCont>
     );
