@@ -38,9 +38,9 @@ export class ProductDescription extends Component {
     let parser = new DOMParser();
     let doc = parser.parseFromString(stringToParse, "text/html");
 
-    let aa = doc.body.children;
+    let elementList = doc.body.children;
 
-    if (aa.length === 0) {
+    if (elementList.length === 0) {
       return doc.body.innerText;
     }
 
@@ -64,7 +64,7 @@ export class ProductDescription extends Component {
       );
     };
 
-    return createJsx(aa);
+    return createJsx(elementList);
   };
 
   checkIdenticalAttribute = (selectedProduct, productinCart, checklength) => {
