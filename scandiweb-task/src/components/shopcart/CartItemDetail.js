@@ -11,10 +11,6 @@ import {
   CartContentWrap,
 } from "../../styled-compomets/ShopCartStyles";
 
-// import { connect } from "react-redux";
-// import { Action } from "../../redux/storereducer";
-// let { setSelectedItem } = Action;
-
 export class CartItemDetail extends Component {
   render() {
     let { att, name, brand, price, selectedAttribute } = this.props;
@@ -43,9 +39,6 @@ export class CartItemDetail extends Component {
                             : false
                         }
                         key={`${name}${displayValue}${num}`}
-                        // onClick={() => {
-                        //   setSelectedItem({ id, name, num: displayValue });
-                        // }}
                       >
                         {displayValue}
                       </CartSizeCont>
@@ -57,9 +50,6 @@ export class CartItemDetail extends Component {
                       selected={
                         selectedAttribute[name] === displayValue ? true : false
                       }
-                      // onClick={() => {
-                      //   setSelectedItem({ id, name, num: displayValue });
-                      // }}
                     />
                   );
                 })}
@@ -71,13 +61,5 @@ export class CartItemDetail extends Component {
     );
   }
 }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     setSelectedItem: ({ id, name, num }) => {
-//       dispatch(setSelectedItem({ id, name, num }));
-//     },
-//   };
-// };
 
 export default CartItemDetail;

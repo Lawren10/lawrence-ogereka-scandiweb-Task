@@ -8,6 +8,7 @@ import {
   CartPriceLabel,
   Cartvalue,
   ShopCartEmptyMessage,
+  CartPriceItemFlexWrap,
 } from "../../styled-compomets/ShopCartStyles";
 
 import { ProductAddToCartBtn } from "../../styled-compomets/productDisplayStyle";
@@ -70,24 +71,18 @@ export class ShopCart extends Component {
         <CartHeader>Cart</CartHeader>
         <CartItemsContainer>{this.loop(cart)}</CartItemsContainer>
         <TotalPriceWrap>
-          <div
-            style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
-          >
+          <CartPriceItemFlexWrap>
             <CartPriceLabel>Tax 21%:</CartPriceLabel>
             <Cartvalue>{`${symbol}${tax}`}</Cartvalue>
-          </div>
-          <div
-            style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
-          >
+          </CartPriceItemFlexWrap>
+          <CartPriceItemFlexWrap>
             <CartPriceLabel>Quantity:</CartPriceLabel>
             <Cartvalue>{quantity}</Cartvalue>
-          </div>
-          <div
-            style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
-          >
+          </CartPriceItemFlexWrap>
+          <CartPriceItemFlexWrap>
             <CartPriceLabel total={"true"}>Total:</CartPriceLabel>
             <Cartvalue>{`${symbol}${cartTotal}`}</Cartvalue>
-          </div>
+          </CartPriceItemFlexWrap>
           <ProductAddToCartBtn order={"true"}>Order</ProductAddToCartBtn>
         </TotalPriceWrap>
       </Cart>

@@ -21,6 +21,11 @@ export const ShopLink = styled(Link)`
   text-decoration: none;
 `;
 
+export const IconWrap = styled.div`
+  color: #1d1f22;
+  text-decoration: none;
+`;
+
 export const LoaderWrap = styled.div`
   position: absolute;
   width: 100%;
@@ -41,4 +46,8 @@ from {
 
 export const AnimateLoader = styled.div`
   animation: ${Animate} 0.5s linear alternate infinite;
+`;
+
+export const LoadingImage = styled.img`
+  margin-left: "auto"; ;
 `;

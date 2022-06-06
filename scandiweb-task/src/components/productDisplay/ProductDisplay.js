@@ -12,7 +12,7 @@ let { setsingleProductId } = Action;
 class ProductDisplay extends Component {
   componentDidMount() {
     let { id, getSingleProduct } = this.props;
-    getSingleProduct(id);
+    getSingleProduct({ id, addtocart: false });
   }
 
   render() {
@@ -21,7 +21,7 @@ class ProductDisplay extends Component {
     if (selectedproduct.attributes === undefined) {
       return <Loading />;
     }
-    // console.log(displayPrice, id);
+
     let singlePrice = displayPrice[id];
 
     let { amount, currency } = singlePrice;
@@ -68,8 +68,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleProduct: (pid) => {
-      dispatch(getSingleProduct(pid));
+    getSingleProduct: ({ id, addtocart }) => {
+      dispatch(getSingleProduct({ id, addtocart }));
     },
     setsingleProductId: (pid) => {
       dispatch(setsingleProductId(pid));

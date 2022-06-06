@@ -13,6 +13,7 @@ import {
   ProductSwatch,
   PDivider,
 } from "../../styled-compomets/productDisplayStyle";
+
 import { connect } from "react-redux";
 import { Action } from "../../redux/storereducer";
 
@@ -27,17 +28,43 @@ let {
 export class ProductDescription extends Component {
   constructor(props) {
     super(props);
-    this.descRef = React.createRef();
     this.state = {
       added: false,
       show: false,
     };
   }
 
-  update = () => {
-    setTimeout(() => {
-      this.descRef.current.innerHTML = this.props.description;
-    }, 0);
+  parseHTMLString = (stringToParse) => {
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(stringToParse, "text/html");
+
+    let aa = doc.body.children;
+
+    if (aa.length === 0) {
+      return doc.body.innerText;
+    }
+
+    const createJsx = (list) => {
+      let childrenList = Array.from(list);
+      return childrenList.map((item) => {
+        let { children, localName, innerText } = item;
+
+        let genJsx = creatnewElement(localName, innerText, children);
+        return genJsx;
+      });
+    };
+
+    const creatnewElement = (name, innerItem, elemChildren) => {
+      let property = Math.random() * 100;
+      let childCount = elemChildren.length > 0;
+      return React.createElement(
+        name,
+        { key: property },
+        childCount ? createJsx(elemChildren) : innerItem
+      );
+    };
+
+    return createJsx(aa);
   };
 
   checkIdenticalAttribute = (selectedProduct, productinCart, checklength) => {
@@ -126,7 +153,6 @@ export class ProductDescription extends Component {
         return;
       }
 
-      console.log("adding");
       let newId = `${id}${appendToId}`;
 
       this.props.addToCart({
@@ -141,7 +167,10 @@ export class ProductDescription extends Component {
       }, 1000);
       return;
     } else {
-      this.props.addToCart({ id, currentProduct: this.props.selectedproduct });
+      this.props.addToCart({
+        id,
+        currentProduct: this.props.selectedproduct,
+      });
       this.props.setGeneratedId(id);
       clearTimeout(clearMessage2);
       this.setState({ added: true, show: true });
@@ -154,6 +183,7 @@ export class ProductDescription extends Component {
   render() {
     let {
       attributes,
+      description,
       brand,
       name,
       amount,
@@ -167,8 +197,6 @@ export class ProductDescription extends Component {
       return;
     }
 
-    this.update();
-
     return (
       <ProductDescWrap>
         <PDivider bottom={"1.5rem"}>
@@ -176,7 +204,7 @@ export class ProductDescription extends Component {
           <ProductBrandName>{brand}</ProductBrandName>
         </PDivider>
 
-        <div style={{ marginBottom: "1rem" }}>
+        <PDivider bottom={"1rem"}>
           {attributes.map((att, index) => {
             let { name, type, items } = att;
             return (
@@ -218,7 +246,7 @@ export class ProductDescription extends Component {
               </div>
             );
           })}
-        </div>
+        </PDivider>
 
         <PDivider bottom={"1rem"}>
           <ProductPriceLabel>Price:</ProductPriceLabel>
@@ -243,7 +271,9 @@ export class ProductDescription extends Component {
           </ProductAddToCartBtn>
         )}
 
-        <ProductDescriptionText ref={this.descRef}></ProductDescriptionText>
+        <ProductDescriptionText ref={this.descRef}>
+          {this.parseHTMLString(description)}
+        </ProductDescriptionText>
       </ProductDescWrap>
     );
   }

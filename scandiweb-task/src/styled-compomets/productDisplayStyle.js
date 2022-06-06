@@ -187,7 +187,7 @@ export const ProductAddToCartBtn = styled.button`
   }
 `;
 
-export const ProductDescriptionText = styled.p`
+export const ProductDescriptionText = styled.div`
   font-size: 1rem;
   font-weight: 400;
   font-family: "Roboto";

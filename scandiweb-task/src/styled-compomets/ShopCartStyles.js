@@ -216,3 +216,9 @@ export const ShopCartEmptyMessage = styled.div`
   display: grid;
   place-content: center;
 `;
+
+export const CartPriceItemFlexWrap = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+`;
