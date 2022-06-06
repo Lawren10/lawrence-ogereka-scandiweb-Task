@@ -3,30 +3,21 @@ import {
   QueryCategory,
   QueryCurrencies,
   QuerySigleProduct,
-  // CartProduct,
   GetCategory,
+  GetPrice,
 } from "../GQLquery/queries";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getCategory = createAsyncThunk(
-  "getCategory",
-  async (name, thunkApi) => {
-    let variables = { title: name };
+export const getPrice = createAsyncThunk(
+  "getPrice",
+  async (param, thunkApi) => {
     let shopstate = thunkApi.getState();
     let { currencies } = shopstate.shop;
     let { selectedCurrency } = currencies;
-
     try {
-      let category = await Client.request(GetCategory);
-      let res = await Client.request(QueryCategory, variables);
-      let { products } = res.category;
+      let res = await Client.request(GetPrice);
+      let fullPriceArr = res.categories[0].products;
       let currencyPrices = {};
-      let fullPriceArr = [];
-
-      products.forEach((element) => {
-        let { prices, id } = element;
-        fullPriceArr.push({ id, prices });
-      });
 
       fullPriceArr.forEach((element) => {
         let { id, prices } = element;
@@ -36,7 +27,24 @@ export const getCategory = createAsyncThunk(
         currencyPrices[id] = { ...prodPrice[0] };
       });
 
-      return { res, currencyPrices, fullPriceArr, category };
+      return { fullPriceArr, currencyPrices };
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const getCategory = createAsyncThunk(
+  "getCategory",
+  async (name, thunkApi) => {
+    let variables = { title: name };
+
+    try {
+      await thunkApi.dispatch(getPrice());
+      let category = await Client.request(GetCategory);
+      let res = await Client.request(QueryCategory, variables);
+
+      return { res, category };
     } catch (error) {
       return error;
     }
@@ -55,18 +63,35 @@ export const getCurrencies = createAsyncThunk("getCurrencies", async () => {
 
 export const getSingleProduct = createAsyncThunk(
   "getSingleProduct",
-  async (pid, thunkApi) => {
-    let variables = { id: pid };
+  async (params, thunkApi) => {
+    let { id, addtocart } = params;
+    let variables = { id };
 
     try {
-      await thunkApi.dispatch(getCategory("all"));
+      if (addtocart === false) {
+        await thunkApi.dispatch(getPrice());
+      }
+
       let res = await Client.request(QuerySigleProduct, variables);
-      return res;
+      return { res, addtocart };
     } catch (error) {
       return error;
     }
   }
 );
+
+// export const addToCartFromCategory = createAsyncThunk(
+//   "addToCartFromCategory",
+//   async (pid, thunkApi) => {
+//     try {
+//       await thunkApi.dispatch(getSingleProduct(pid));
+
+//       return pid;
+//     } catch (error) {
+//       return error;
+//     }
+//   }
+// );
 
 // export const addToCart = createAsyncThunk(
 //   "addToCart",

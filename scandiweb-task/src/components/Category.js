@@ -3,6 +3,7 @@ import ShopItem from "./ShopItem";
 import {
   CategoriesName,
   ProductsContainer,
+  MainContainer,
 } from "../styled-compomets/shopItemStyles";
 import { connect } from "react-redux";
 import Loading from "./Loading";
@@ -13,8 +14,9 @@ export class Category extends Component {
     if (products.length === 0) {
       return <Loading />;
     }
+
     return (
-      <main style={{ padding: "2rem" }}>
+      <MainContainer>
         <CategoriesName>{categoryName}</CategoriesName>
         <ProductsContainer>
           {products.map((item, index) => {
@@ -28,7 +30,7 @@ export class Category extends Component {
             );
           })}
         </ProductsContainer>
-      </main>
+      </MainContainer>
     );
   }
 }

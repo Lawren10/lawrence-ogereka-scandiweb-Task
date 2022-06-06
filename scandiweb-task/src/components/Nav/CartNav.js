@@ -5,18 +5,18 @@ import {
   CartCount,
   CartOverLay,
   MiniCartMessage,
+  CartIcon,
 } from "../../styled-compomets/Navcomp-styles";
-import { ShopLink } from "../../styled-compomets/Global-style-theme";
+import { IconWrap } from "../../styled-compomets/Global-style-theme";
 import { connect } from "react-redux";
 import { getCurrencies } from "../../redux/asyncQueries";
-import { BsCart2 } from "react-icons/bs";
 import MiniCart from "../shopcart/Minicart";
 import { Action } from "../../redux/storereducer";
 
 let { setShowCartOverlay, setShowCurrencyList } = Action;
 
 export class Cart extends Component {
-  handleMouseEnter = (e) => {
+  handleOnClick = (e) => {
     if (this.props.showCurrencyList === true) {
       this.props.setShowCurrencyList();
     }
@@ -31,16 +31,16 @@ export class Cart extends Component {
     return (
       <div>
         <CartBtn
-          onMouseEnter={(e) => {
-            this.handleMouseEnter(e);
+          onClick={(e) => {
+            this.handleOnClick(e);
           }}
         >
-          <ShopLink to="/cart">
+          <IconWrap>
             <i>
-              <BsCart2 style={{ fontSize: "1.2rem" }} />
+              <CartIcon />
             </i>
             <CartCount>{itemsInCart}</CartCount>
-          </ShopLink>
+          </IconWrap>
           <CartList show={this.props.showCartOverlay}>
             {val === 0 ? (
               <MiniCartMessage id="mini">

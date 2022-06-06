@@ -18,15 +18,15 @@ export class App extends Component {
     if (this.props.showCartOverlay === true) {
       this.props.setShowCartOverlay();
     }
-    if (
-      itemId === "$" ||
-      itemId === "A$" ||
-      itemId === "£" ||
-      itemId === "¥" ||
-      itemId === "₽"
-    ) {
-      return;
-    }
+    // if (
+    //   itemId === "$" ||
+    //   itemId === "A$" ||
+    //   itemId === "£" ||
+    //   itemId === "¥" ||
+    //   itemId === "₽"
+    // ) {
+    //   return;
+    // }
 
     if (itemId === "currencyBtn" && this.props.showCurrencyList === false) {
       this.props.setShowCurrencyList();

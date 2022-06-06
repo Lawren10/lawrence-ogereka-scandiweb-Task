@@ -13,7 +13,6 @@ export const ItemPic = styled.img`
 `;
 
 export const ItemName = styled.h5`
-  /* margin-top: 1.5rem; */
   font-weight: 300;
   font-family: inherit;
   font-size: 1.125rem;
@@ -109,6 +108,10 @@ export const OutOfStockText = styled.div`
   font-size: 2rem;
 `;
 
+export const MainContainer = styled.main`
+  padding: "2rem";
+`;
+
 export const AddedToCartMessage = styled.div`
   position: absolute;
   inset: 40% auto auto 5rem;
@@ -116,7 +119,7 @@ export const AddedToCartMessage = styled.div`
   font-weight: 500;
   font-size: 1rem;
   text-align: center;
-  color: ${({ added }) => (added ? "#5ece7b" : "red")};
+  color: ${({ added }) => (added ? "#5ece7b" : "")};
   backdrop-filter: blur(0.5rem);
   display: ${({ show }) => (show ? "block" : "none")};
 `;

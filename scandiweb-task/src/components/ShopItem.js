@@ -10,14 +10,58 @@ import {
   OutOfStockOverLay,
   OutOfStockText,
   ItemBrandName,
+  AddedToCartMessage,
 } from "../styled-compomets/shopItemStyles";
+import { getSingleProduct } from "../redux/asyncQueries";
 import { ShopLink } from "../styled-compomets/Global-style-theme";
 import { connect } from "react-redux";
 import { Action } from "../redux/storereducer";
 
-let { setsingleProductId, setSelectedProduct } = Action;
+let {
+  setsingleProductId,
+  setSelectedProduct,
+  increaseSameProductQuantity,
+  increaseTotalQty,
+  setGeneratedId,
+} = Action;
 
 export class ShopItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      added: false,
+      show: false,
+    };
+  }
+
+  addingToCart = (id, amount) => {
+    let clearMessage1;
+    let storeCart = this.props.cart;
+
+    if (id in storeCart) {
+      this.props.increaseSameProductQuantity({
+        id,
+        amount,
+      });
+      this.props.increaseTotalQty();
+      clearTimeout(clearMessage1);
+      this.setState({ ...this.state, added: true, show: true });
+      clearMessage1 = setTimeout(() => {
+        this.setState({ added: false, show: false });
+      }, 1000);
+      return;
+    }
+    this.props.getSingleProduct({ id, addtocart: true });
+    this.props.setGeneratedId(id);
+    clearTimeout(clearMessage1);
+    this.setState({ ...this.state, added: true, show: true });
+    clearMessage1 = setTimeout(() => {
+      this.setState({ added: false, show: false });
+    }, 1000);
+    return;
+  };
+
   render() {
     let { product, Price } = this.props;
     let { name, id, gallery, inStock, brand } = product;
@@ -42,12 +86,21 @@ export class ShopItem extends Component {
               <ItemPrice
                 inStock={inStock}
               >{`${currency.symbol} ${amount}`}</ItemPrice>
-              {inStock && (
-                <AddToChartBtn>
-                  <BsCart2 />
-                </AddToChartBtn>
-              )}
             </ShopLink>
+
+            {inStock && (
+              <AddToChartBtn
+                onClick={() => {
+                  this.addingToCart(id, amount);
+                }}
+              >
+                <BsCart2 />
+              </AddToChartBtn>
+            )}
+
+            <AddedToCartMessage show={this.state.show} added={this.state.added}>
+              Item added to cart
+            </AddedToCartMessage>
           </ItemWrapper>
         }
       </>
@@ -62,6 +115,19 @@ const mapDispatchToProps = (dispatch) => {
     },
     setSelectedProduct: (prod) => {
       dispatch(setSelectedProduct(prod));
+    },
+    increaseSameProductQuantity: ({ id, amount }) => {
+      dispatch(increaseSameProductQuantity({ id, amount }));
+    },
+    increaseTotalQty: () => {
+      dispatch(increaseTotalQty());
+    },
+
+    setGeneratedId: (genId) => {
+      dispatch(setGeneratedId(genId));
+    },
+    getSingleProduct: ({ id, addtocart }) => {
+      dispatch(getSingleProduct({ id, addtocart }));
     },
   };
 };

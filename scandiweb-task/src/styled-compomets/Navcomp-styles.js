@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { keyframes, css } from "styled-components";
+import { BsCart2 } from "react-icons/bs";
 
 export const Nav = styled.div`
   position: sticky;
@@ -190,4 +191,8 @@ export const MiniCartMessage = styled.div`
   height: 90%;
   display: grid;
   place-content: center;
+`;
+
+export const CartIcon = styled(BsCart2)`
+  font-size: "1.2rem";
 `;

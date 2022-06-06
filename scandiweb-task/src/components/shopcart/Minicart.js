@@ -92,9 +92,7 @@ export class MiniCart extends Component {
               mini={"true"}
               id="mini"
             >
-              <ShopLink to="/cart" id="mini">
-                View Bag
-              </ShopLink>
+              <ShopLink to="/cart">View Bag</ShopLink>
             </ProductAddToCartBtn>
 
             <ProductAddToCartBtn order={"true"} mini={"true"} id="mini">
