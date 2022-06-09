@@ -23,6 +23,7 @@ let {
   increaseSameProductQuantity,
   increaseTotalQty,
   setGeneratedId,
+  setLoadPrice,
 } = Action;
 
 export class ShopItem extends Component {
@@ -72,7 +73,12 @@ export class ShopItem extends Component {
       <>
         {
           <ItemWrapper>
-            <ShopLink to={`/product/${id}`}>
+            <ShopLink
+              to={`/product/${id}`}
+              onClick={() => {
+                this.props.setLoadPrice();
+              }}
+            >
               <PicContainer>
                 <ItemPic src={gallery[0]}></ItemPic>
                 {!inStock && (
@@ -128,6 +134,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getSingleProduct: ({ id, addtocart }) => {
       dispatch(getSingleProduct({ id, addtocart }));
+    },
+    setLoadPrice: () => {
+      dispatch(setLoadPrice());
     },
   };
 };

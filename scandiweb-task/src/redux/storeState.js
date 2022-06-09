@@ -8,6 +8,7 @@ const fullShop = {
   },
   prices: [],
   displayPrice: [],
+  loadPrice: true,
   showCurrencyList: false,
   showCartOverlay: false,
   singleProductId: "",

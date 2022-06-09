@@ -144,10 +144,10 @@ export const CartList = styled.ul`
 
 export const CartOverLay = styled.div`
   position: absolute;
-  top: 100%;
+  top: 0;
   right: -100%;
   width: 100vw;
-  height: 89.5vh;
+  height: 100vh;
   background-color: rgba(57, 55, 72, 0.22);
   z-index: 3;
   display: ${({ show }) => (show === true ? "block" : "none")};

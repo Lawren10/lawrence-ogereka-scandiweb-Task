@@ -26,6 +26,10 @@ const shopActions = {
     state.selectedproduct.selectedAttribute[name] = num;
   },
 
+  setLoadPrice: (state) => {
+    state.loadPrice = false;
+  },
+
   setsingleProductId: (state, action) => {
     state.singleProductId = action.payload;
   },
