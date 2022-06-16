@@ -6,6 +6,7 @@ const fullShop = {
     navCurrencies: [],
     selectedCurrency: "$",
   },
+  Active: "",
   prices: [],
   displayPrice: [],
   loadPrice: true,

@@ -4,20 +4,28 @@ import {
   QueryCurrencies,
   QuerySigleProduct,
   GetCategory,
-  GetPrice,
+  // GetPrice,
 } from "../GQLquery/queries";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getPrice = createAsyncThunk(
-  "getPrice",
-  async (param, thunkApi) => {
+export const getCategory = createAsyncThunk(
+  "getCategory",
+  async (name, thunkApi) => {
+    let variables = { title: name };
     let shopstate = thunkApi.getState();
     let { currencies } = shopstate.shop;
     let { selectedCurrency } = currencies;
+
     try {
-      let res = await Client.request(GetPrice);
-      let fullPriceArr = res.categories[0].products;
+      let fullPriceArr = [];
       let currencyPrices = {};
+
+      let category = await Client.request(GetCategory);
+      let res = await Client.request(QueryCategory, variables);
+      res.category.products.forEach((item) => {
+        let { id, prices } = item;
+        fullPriceArr.push({ id, prices });
+      });
 
       fullPriceArr.forEach((element) => {
         let { id, prices } = element;
@@ -27,25 +35,9 @@ export const getPrice = createAsyncThunk(
         currencyPrices[id] = { ...prodPrice[0] };
       });
 
-      return { fullPriceArr, currencyPrices };
-    } catch (error) {
-      return error;
-    }
-  }
-);
+      // console.log(res);
 
-export const getCategory = createAsyncThunk(
-  "getCategory",
-  async (name, thunkApi) => {
-    let variables = { title: name };
-
-    try {
-      await thunkApi.dispatch(getPrice());
-
-      let category = await Client.request(GetCategory);
-      let res = await Client.request(QueryCategory, variables);
-
-      return { res, category };
+      return { res, category, fullPriceArr, currencyPrices };
     } catch (error) {
       return error;
     }
@@ -65,15 +57,15 @@ export const getCurrencies = createAsyncThunk("getCurrencies", async () => {
 export const getSingleProduct = createAsyncThunk(
   "getSingleProduct",
   async (params, thunkApi) => {
-    let shopstate = thunkApi.getState();
-    let { loadPrice } = shopstate.shop;
+    // let shopstate = thunkApi.getState();
+    // let { loadPrice } = shopstate.shop;
     let { id, addtocart } = params;
     let variables = { id };
 
     try {
-      if (addtocart === false && loadPrice === true) {
-        await thunkApi.dispatch(getPrice());
-      }
+      // if (addtocart === false && loadPrice === true) {
+      //   // await thunkApi.dispatch(getCategory("all"));
+      // }
 
       let res = await Client.request(QuerySigleProduct, variables);
 
@@ -114,6 +106,32 @@ export const getSingleProduct = createAsyncThunk(
 //       return res.product;
 //     } catch (error) {
 //       return error.message;
+//     }
+//   }
+// );
+
+// export const getPrice = createAsyncThunk(
+//   "getPrice",
+//   async (param, thunkApi) => {
+//     let shopstate = thunkApi.getState();
+//     let { currencies } = shopstate.shop;
+//     let { selectedCurrency } = currencies;
+//     try {
+//       let res = await Client.request(GetPrice);
+//       let fullPriceArr = res.categories[0].products;
+//       let currencyPrices = {};
+
+//       fullPriceArr.forEach((element) => {
+//         let { id, prices } = element;
+//         let prodPrice = prices.filter(
+//           (e) => e.currency.symbol === selectedCurrency
+//         );
+//         currencyPrices[id] = { ...prodPrice[0] };
+//       });
+
+//       return { fullPriceArr, currencyPrices };
+//     } catch (error) {
+//       return error;
 //     }
 //   }
 // );

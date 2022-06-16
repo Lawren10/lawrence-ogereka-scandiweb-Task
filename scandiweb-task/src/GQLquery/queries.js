@@ -49,23 +49,6 @@ export const GetCategory = gql`
   }
 `;
 
-export const GetPrice = gql`
-  {
-    categories {
-      products {
-        id
-        prices {
-          currency {
-            label
-            symbol
-          }
-          amount
-        }
-      }
-    }
-  }
-`;
-
 export const QuerySigleProduct = gql`
   query getSingleProduct($id: String!) {
     product(id: $id) {
@@ -115,3 +98,20 @@ export const CartProduct = gql`
     }
   }
 `;
+
+// export const GetPrice = gql`
+//   {
+//     categories {
+//       products {
+//         id
+//         prices {
+//           currency {
+//             label
+//             symbol
+//           }
+//           amount
+//         }
+//       }
+//     }
+//   }
+// `;

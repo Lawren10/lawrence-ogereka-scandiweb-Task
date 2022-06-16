@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 
 const GetParmas = (Component) => {
   function HocComp(props) {
-    const { id } = useParams();
-    return <Component {...props} id={id}></Component>;
+    const { id, name } = useParams();
+
+    return <Component {...props} id={id} name={name}></Component>;
   }
 
   return HocComp;

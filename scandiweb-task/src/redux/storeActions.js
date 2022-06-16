@@ -30,6 +30,10 @@ const shopActions = {
     state.loadPrice = false;
   },
 
+  setActive: (state, action) => {
+    state.Active = action.payload;
+  },
+
   setsingleProductId: (state, action) => {
     state.singleProductId = action.payload;
   },

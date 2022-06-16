@@ -3,7 +3,7 @@ import {
   getCategory,
   getCurrencies,
   getSingleProduct,
-  getPrice,
+  // getPrice,
 } from "./asyncQueries";
 import fullShop from "./storeState";
 import shopActions from "./storeActions";
@@ -17,12 +17,14 @@ const Shop = createSlice({
   },
   extraReducers: {
     [getCategory.fulfilled]: (state, action) => {
-      let { res, category } = action.payload;
+      let { res, category, fullPriceArr, currencyPrices } = action.payload;
       let { name, products } = res.category;
 
       state.products = products;
       state.categoryName = name;
       state.navCategories = category.categories;
+      state.displayPrice = currencyPrices;
+      state.prices = fullPriceArr;
     },
 
     [getCurrencies.fulfilled]: (state, action) => {
@@ -54,12 +56,6 @@ const Shop = createSlice({
         state.cartTotal += Math.round(amount);
         state.tax = Math.round(state.cartTotal * 0.21);
       }
-    },
-
-    [getPrice.fulfilled]: (state, action) => {
-      let { fullPriceArr, currencyPrices } = action.payload;
-      state.displayPrice = currencyPrices;
-      state.prices = fullPriceArr;
     },
   },
 });
@@ -95,3 +91,9 @@ export default Shop.reducer;
 //   state.cartTotal += Math.round(amount);
 //   state.tax = Math.round(state.cartTotal * 0.21);
 // },
+
+// [getPrice.fulfilled]: (state, action) => {
+//       let { fullPriceArr, currencyPrices } = action.payload;
+//       state.displayPrice = currencyPrices;
+//       state.prices = fullPriceArr;
+//     },

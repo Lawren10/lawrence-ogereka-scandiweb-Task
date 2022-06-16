@@ -23,7 +23,9 @@ class ProductDisplay extends Component {
     }
 
     let singlePrice = displayPrice[id];
-
+    if (singlePrice === undefined) {
+      return <Loading />;
+    }
     let { amount, currency } = singlePrice;
 
     let {

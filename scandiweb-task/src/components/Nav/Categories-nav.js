@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-// import Link from "react-router-dom";
 import {
   NavButton,
   CategoriesNavWrap,
 } from "../../styled-compomets/Navcomp-styles";
+import GetParmas from "../HocComp";
+import { Action } from "../../redux/storereducer";
 import { connect } from "react-redux";
 import { getCategory } from "../../redux/asyncQueries";
 import { ShopLink } from "../../styled-compomets/Global-style-theme";
+
+let { setActive } = Action;
 
 export class CategoriesNav extends Component {
   constructor(props) {
@@ -14,31 +17,11 @@ export class CategoriesNav extends Component {
 
     this.state = {};
   }
-  componentDidMount() {
-    this.props.getCategory("all");
-  }
-
-  componentDidUpdate() {
-    let len = Object.keys(this.state).length;
-
-    if (len <= 0 && this.props.navCategories.length > 0) {
-      this.setStateObject(this.props.navCategories);
-    }
-  }
 
   activate = (e) => {
     let id = e.target.id;
 
-    let newstate = {};
-    for (let item in this.state) {
-      if (item === id) {
-        newstate[item] = "Active";
-        continue;
-      }
-      newstate[item] = "";
-    }
-
-    this.setState({ ...newstate });
+    this.props.setActive(id);
     this.props.getCategory(id);
   };
 
@@ -57,7 +40,7 @@ export class CategoriesNav extends Component {
   };
 
   render() {
-    let { navCategories } = this.props;
+    let { navCategories, Active } = this.props;
 
     return (
       <CategoriesNavWrap>
@@ -69,7 +52,7 @@ export class CategoriesNav extends Component {
               <ShopLink to={`/${name}`} key={index}>
                 <NavButton
                   id={name}
-                  active={this.state[name]}
+                  active={`${Active === name ? Active : ""}`}
                   onClick={(e) => {
                     this.activate(e);
                   }}
@@ -84,18 +67,24 @@ export class CategoriesNav extends Component {
   }
 }
 
+CategoriesNav = GetParmas(CategoriesNav);
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getCategory: (name) => {
       dispatch(getCategory(name));
     },
+    setActive: (name) => {
+      dispatch(setActive(name));
+    },
   };
 };
 
 const mapStateToProps = (state) => {
-  let { navCategories } = state.shop;
+  let { navCategories, Active } = state.shop;
   return {
     navCategories,
+    Active,
   };
 };
 

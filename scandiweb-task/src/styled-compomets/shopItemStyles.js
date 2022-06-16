@@ -50,6 +50,7 @@ export const ProductsContainer = styled.ul`
   row-gap: 2rem;
   flex-wrap: wrap;
   list-style-type: none;
+  padding: 1rem;
 `;
 
 export const AddToChartBtn = styled.div`
