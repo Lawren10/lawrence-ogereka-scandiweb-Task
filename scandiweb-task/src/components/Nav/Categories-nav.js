@@ -25,20 +25,6 @@ export class CategoriesNav extends Component {
     this.props.getCategory(id);
   };
 
-  setStateObject = (arr) => {
-    let obj = {};
-    arr.forEach((element, index) => {
-      let { name } = element;
-      if (index === 0) {
-        obj[name] = "Active";
-      } else {
-        obj[name] = "";
-      }
-    });
-
-    this.setState(obj);
-  };
-
   render() {
     let { navCategories, Active } = this.props;
 

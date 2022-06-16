@@ -57,15 +57,15 @@ export const getCurrencies = createAsyncThunk("getCurrencies", async () => {
 export const getSingleProduct = createAsyncThunk(
   "getSingleProduct",
   async (params, thunkApi) => {
-    // let shopstate = thunkApi.getState();
-    // let { loadPrice } = shopstate.shop;
+    let shopstate = thunkApi.getState();
+    let { loadPrice } = shopstate.shop;
     let { id, addtocart } = params;
     let variables = { id };
 
     try {
-      // if (addtocart === false && loadPrice === true) {
-      //   // await thunkApi.dispatch(getCategory("all"));
-      // }
+      if (addtocart === false && loadPrice === true) {
+        await thunkApi.dispatch(getCategory("all"));
+      }
 
       let res = await Client.request(QuerySigleProduct, variables);
 
