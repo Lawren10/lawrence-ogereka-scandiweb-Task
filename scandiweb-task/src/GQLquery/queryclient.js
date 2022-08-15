@@ -1,5 +1,5 @@
-import { GraphQLClient } from "graphql-request";
+import {GraphQLClient} from "graphql-request";
 
-const Client = new GraphQLClient("http://localhost:4000/");
+const Client = new GraphQLClient("https://law-graphqlbackend.herokuapp.com/");
 
 export default Client;
